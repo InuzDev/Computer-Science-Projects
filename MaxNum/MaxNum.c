@@ -1,16 +1,24 @@
 #include <stdio.h>
 
 int main() {
+   // We now going to try and create the workflow to make the MaxNum program
+   /* 
+   This programs is suppose to determine what the biggest number in an array is.
+   In this example, the array got a fixed size of 8 and the data is integer.
+   */
    // We need to create an array that will contian the numbers
    int numbers[8] = {4,5,10,34,2,12,4,1}; // Arrays start from 0 index.
+   int Max = 0;
 
-   // If I ask to print the number 34, I gotta ask the index.
+   int length = sizeof(numbers)/sizeof(numbers[0]); // This will give us the lenght of the array
 
-   // To print a intenger, we need to specify the data type with "%d"
-   printf("%d", numbers[3]);
-   printf("\n");
+   for(int Index = 0; Index < length; Index++) {
+      if(numbers[Index] > Max) {
+         Max = numbers[Index];
+      }
+   }
 
-   printf("This is the MaxNum.c File \n");
+   printf("%d", Max); // Keep this, so we receive an output.
 
    return 0;
 }
