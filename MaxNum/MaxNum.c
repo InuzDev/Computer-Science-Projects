@@ -12,9 +12,9 @@ int main() {
 
    int numbers[8] = { 4, 5, 10, 34, 2, 12, 4, 1, 2 }; // Arrays start from 0 index.
    int Max = 0;
-   int length = sizeof(numbers)/sizeof(numbers[0]); // This will give us the lenght of the array
+   int numbersLength = sizeof(numbers)/sizeof(numbers[0]); // This will give us the lenght of the array
 
-   for(int Index = 0; Index < length; Index++) {
+   for(int Index = 0; Index < numbersLength; Index++) {
       if(numbers[Index] > Max) {
          Max = numbers[Index];
       }
