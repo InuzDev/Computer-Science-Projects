@@ -11,7 +11,7 @@ int main()
 
    // We need to create an array that will contian the numbers
 
-   int numbers[8] = {4, 5, 10, 34, 2, 12, 4, 1, 2}; // Arrays start from 0 index.
+   int numbers[9] = {4, 5, 10, 34, 2, 12, 4, 1, 2}; // Arrays start from 0 index.
    int Max = 0;
    int numbersLength = sizeof(numbers) / sizeof(numbers[0]); // This will give us the lenght of the array
 
@@ -23,7 +23,7 @@ int main()
       }
    }
 
-   printf("%d", Max); // Keep this, so we receive an output.
+   printf("%d \n", Max); // Keep this, so we receive an output.
 
    return 0;
 }
