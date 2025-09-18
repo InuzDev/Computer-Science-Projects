@@ -1,9 +1,2 @@
-# Another repo
-
-workshop-design-pattern/*
-
 # compiled files
-*.com
-MaxNum/*.exe
-SumOddsAndEvens/*.exe
-PrimeNumber/*.exe
+*.exe
