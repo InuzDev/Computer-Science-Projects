@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Function to calculate the sum of proper divisors
 int sumOfDivisors(int num)
