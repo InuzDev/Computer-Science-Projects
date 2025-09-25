@@ -49,7 +49,7 @@ int main()
    printf("Enter the end of the positive range: ");
    scanf("%d", &rangeB);
 
-   if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB)
+   if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB)
    {
       printf("Invalid range. Please enter positive numbers with start <= end.\n");
       return 1;
