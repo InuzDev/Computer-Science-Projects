@@ -62,7 +62,7 @@ void XYZ_float_arithmetic_operations(float x, float y, float z)
   printf("\n");
   // For "modulo" operations with float type data, we need to import <math.h>
   // printf("D: %f", x % y);  <- Instead of this; Do the code below
-  printf("D: fmod(%.2f, %.2f) = %.2f\n", x, y,
+  printf("D: Modulo de: %.2f \% %.2f = %.2f\n", x, y,
          fmod(x, y)); // In this scenerario, x = 8.3 for example
 
   BreakLine();
