@@ -1,5 +1,8 @@
 # IDE files
 .vscode
 
+# dot files
+.clangd
+
 # compiled files
 *.exe
