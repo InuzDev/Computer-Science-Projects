@@ -43,18 +43,22 @@ int isContradictory(int num)
 // Main function
 int main()
 {
-   int rangeA, rangeB;
+   int rangeA, rangeB = 0;
 
-   printf("Enter the start of the positive range: ");
-   scanf("%d", &rangeA);
-   printf("Enter the end of the positive range: ");
-   scanf("%d", &rangeB);
-
-   if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB)
+   do
    {
-      printf("Invalid range. Please enter positive numbers with start <= end.\n");
-      return 1;
-   }
+      printf("Enter the start of the positive range: ");
+      scanf("%d", &rangeA);
+
+      printf("Enter the end of the positive range: ");
+      scanf("%d", &rangeB);
+
+      if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB)
+      {
+         printf("Invalid range. Please enter positive numbers with start <= end.\n");
+         return 1;
+      }
+   } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB);
 
    printf("Contradictory numbers in the range:\n");
    for (int i = rangeA; i <= rangeB; i++)
