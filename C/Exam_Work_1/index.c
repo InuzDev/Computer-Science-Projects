@@ -21,7 +21,7 @@ int classify(int num)
    int sum = sumOfDivisors(num);
    if (sum < num)
       return -1;
-   else if (sum == num)
+   else if (sum == num || sum == 0)
       return 0;
    else
       return 1;
@@ -56,14 +56,18 @@ int main()
       if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB)
       {
          printf("Invalid range. Please enter positive numbers with start <= end.\n");
-         return 1;
       }
    } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB);
 
    printf("Contradictory numbers in the range:\n");
-   for (int i = rangeA; i <= rangeB; i++)
+   for (int i = rangeA + 1; i <= rangeB; i++)
    {
-      if (isContradictory(i))
+      if (isContradictory(i) == 0)
+      {
+         printf("* No contradictory numbers\n");
+         break;
+      }
+      else if (isContradictory(i))
       {
          printf("%d is contradictory.\n", i);
       }
