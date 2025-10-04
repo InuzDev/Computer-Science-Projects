@@ -62,15 +62,10 @@ int main()
    printf("Contradictory numbers in the range:\n");
    for (int i = rangeA + 1; i <= rangeB; i++)
    {
-      if (isContradictory(i) == 0)
-      {
-         printf("* No contradictory numbers\n");
-         break;
-      }
-      else if (isContradictory(i))
+      if (isContradictory(i))
       {
          printf("%d is contradictory.\n", i);
-      }
+            }
    }
 
    return 0;
