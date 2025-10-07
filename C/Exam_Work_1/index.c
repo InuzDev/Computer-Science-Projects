@@ -53,11 +53,11 @@ int main()
       printf("Enter the end of the positive range: ");
       scanf("%d", &rangeB);
 
-      if (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB)
+      if (rangeA <= 0 || rangeB <= 0 || rangeA >= rangeB)
       {
          printf("Invalid range. Please enter positive numbers with start <= end.\n");
       }
-   } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB || rangeA == rangeB);
+   } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB);
 
    printf("Contradictory numbers in the range:\n");
    for (int i = rangeA + 1; i <= rangeB; i++)
@@ -65,7 +65,7 @@ int main()
       if (isContradictory(i))
       {
          printf("%d is contradictory.\n", i);
-            }
+      }
    }
 
    return 0;
