@@ -1,12 +1,16 @@
 #include <stdio.h>
+// Esta libreria es para llamar system("pause");, no es muy util en code:blocks debido a que este lo detiene por defecto, pero si se corre el .exe normal,
+// notaremos que se cierra automaticamente termina el programa.
+#include <unistd.h>
+// These two libraries are used to fix a bug with the scanner
 
 // Función que calcula la suma de los factores propios de un número
-int sumaFactores(int n)
+int sumaFactores(int num)
 {
    int suma = 0;
-   for (int i = 1; i < n; i++)
+   for (int i = 1; i < num; i++)
    {
-      if (n % i == 0)
+      if (num % i == 0)
       {
          suma += i;
       }
@@ -24,39 +28,41 @@ int esAbundante(int num)
 // Función principal
 int main()
 {
-   int inicio, fin;
+   // Datos insertados por el usuario
+   int LimInf, LimSup;
+   // Variables del sistema.
    int sumaExitosos = 0, contadorExitosos = 0;
 
    printf("Ingrese el limite inferior del rango: ");
-   scanf("%d", &inicio);
+   scanf("%d", &LimInf);
    printf("Ingrese el limite superior del rango: ");
-   scanf("%d", &fin);
+   scanf("%d", &LimSup);
 
    printf("\nNumeros exitosos encontrados:\n");
 
-   for (int n = inicio; n <= fin; n++)
+   for (int num = LimInf; num <= LimSup; num++)
    {
-      int suma = sumaFactores(n);
+      int suma = sumaFactores(num);
 
       // Determinar tipo de número
-      if (suma > n)
+      if (suma > num)
       { // Es abundante
-         int factoresAbundantes = 0;
+         int FactAbund = 0;
 
          // Buscar factores de n y contar cuántos son abundantes
-         for (int i = 1; i < n; i++)
+         for (int i = 1; i < num; i++)
          {
-            if (n % i == 0 && esAbundante(i))
+            if (num % i == 0 && esAbundante(i))
             {
-               factoresAbundantes++;
+               FactAbund++;
             }
          }
 
          // Verificar si el número es exitoso
-         if (factoresAbundantes >= 3 && factoresAbundantes <= 8)
+         if (FactAbund >= 3 && FactAbund <= 8)
          {
-            printf("%d (factores abundantes: %d)\n", n, factoresAbundantes);
-            sumaExitosos += n;
+            printf("%d (factores abundantes: %d)\n", num, FactAbund);
+            sumaExitosos += num;
             contadorExitosos++;
          }
       }
@@ -72,7 +78,7 @@ int main()
       printf("\nNo se encontraron numeros exitosos en el rango.\n");
    }
 
-   // Getchar is used to avoid inmediate shutdown of the program in the terminal
-   getchar();
+   // Used to pause the program so it doesn't shut down instantly.
+   system("pause");
    return 0;
 }
