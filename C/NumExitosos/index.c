@@ -1,11 +1,11 @@
 #include <stdio.h>
-// Esta libreria es para llamar system("pause");, no es muy util en code:blocks debido a que este lo detiene por defecto, pero si se corre el .exe normal,
+// Esta libreria es para llamar system("pause");, no es muy util
+// en code:blocks debido a que este lo detiene por defecto, pero si se corre el .exe normal,
 // notaremos que se cierra automaticamente termina el programa.
 #include <unistd.h>
-// These two libraries are used to fix a bug with the scanner
 
 // Función que calcula la suma de los factores propios de un número
-int sumaFactores(int num)
+int SumDiv(int num)
 {
    int suma = 0;
    for (int i = 1; i < num; i++)
@@ -21,7 +21,7 @@ int sumaFactores(int num)
 // Función que determina si un número es abundante
 int esAbundante(int num)
 {
-   int suma = sumaFactores(num);
+   int suma = SumDiv(num);
    return (suma > num);
 }
 
@@ -37,12 +37,23 @@ int main()
    scanf("%d", &LimInf);
    printf("Ingrese el limite superior del rango: ");
    scanf("%d", &LimSup);
+   while (LimInf <= 0 || LimSup <= 0 || LimSup <= LimInf)
+   {
+      if (LimInf <= 0 || LimSup <= 0 || LimSup <= LimInf)
+      {
+         printf("Limites invalidos, favor de insertar limites validos\n");
+      }
+      printf("Ingrese el limite inferior del rango: ");
+      scanf("%d", &LimInf);
+      printf("Ingrese el limite superior del rango: ");
+      scanf("%d", &LimSup);
+   }
 
    printf("\nNumeros exitosos encontrados:\n");
 
    for (int num = LimInf; num <= LimSup; num++)
    {
-      int suma = sumaFactores(num);
+      int suma = SumDiv(num);
 
       // Determinar tipo de número
       if (suma > num)
@@ -61,7 +72,7 @@ int main()
          // Verificar si el número es exitoso
          if (FactAbund >= 3 && FactAbund <= 8)
          {
-            printf("%d (factores abundantes: %d)\n", num, FactAbund);
+            printf("%d (Factores abundantes: %d)\n", num, FactAbund);
             sumaExitosos += num;
             contadorExitosos++;
          }
@@ -78,7 +89,6 @@ int main()
       printf("\nNo se encontraron numeros exitosos en el rango.\n");
    }
 
-   // Used to pause the program so it doesn't shut down instantly.
    system("pause");
    return 0;
 }
