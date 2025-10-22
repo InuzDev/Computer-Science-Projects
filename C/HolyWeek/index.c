@@ -179,7 +179,7 @@ int ObtainEasterSunday(int year)
 }
 
 /**
- * Función: CalculateTag
+ * Función: TagGiver
  * Argumentos: (int) StartHolyWeek, EndHolyWeek.
  * Objetivo: Especificar si semana santa cae en Marzo,
  *          Abril o Entre ambos a base de calcular la
