@@ -8,23 +8,22 @@ int sumOfDivisors(int num)
    for (int i = 1; i < num; i++)
    {
       if (num % i == 0)
-      {
          sum += i;
-      }
    }
    return sum;
 }
 
-// Function to classify a number: -1 = deficient, 0 = perfect, 1 = abundant
+// Function to classify the number.
 int classify(int num)
 {
    int sum = sumOfDivisors(num);
    if (sum < num)
-      return -1;
-   else if (sum == num || sum == 0)
-      return 0;
-   else
-      return 1;
+      return -1; // Abundant
+
+   if (sum == num || sum == 0)
+      return 0; // Perfect
+
+   return 1; // Deficient
 }
 
 // Function to check if a number is contradictory
@@ -54,19 +53,14 @@ int main()
       scanf("%d", &rangeB);
 
       if (rangeA <= 0 || rangeB <= 0 || rangeA >= rangeB)
-      {
          printf("Invalid range. Please enter positive numbers with start <= end.\n");
-      }
    } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB);
 
    printf("Contradictory numbers in the range:\n");
+
    for (int i = rangeA + 1; i <= rangeB; i++)
-   {
       if (isContradictory(i))
-      {
          printf("%d is contradictory.\n", i);
-      }
-   }
 
    return 0;
 }
