@@ -5,6 +5,7 @@ This file has been provided by my teacher
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #define MAXSTR 80
 
@@ -21,15 +22,25 @@ void WordCase(char[]);  // Primera letra de cada palabra en mayúsculas y
 int main()
 {
    char frase[MAXSTR], chr = 'a';
-   char otra[] = "Esta sí";
+   char otra[MAXSTR] = "Esta sí";
    printf("Frase: ");
    // scanf("%[^\n]s",frase);
    gets(frase);
+
+   printf("Estado 1: %s\n\n", otra); // This will be printed as "Esta si"
+   // This is copy one string into another. strcpy(string2, string1);
+   strcpy(otra, frase); // Now "otra" is equal to what we type in the phrase
+   printf("Estado 2: %s\n\n", otra);
+   // What if we want to copy just some characters? We use strncpy();
+   strncpy(otra, frase, sizeof(otra) - 1);
+   otra[sizeof(otra) - 1] = '\0';
+   printf("Estado 3: %s\n", otra);
 
    amayus(frase);
    aminus(frase);
    titlecase(frase);
    WordCase(frase);
+
    printf("Frase digitada:\n%s(%d)\n", frase, strlen(frase));
    printf("El carater '%c' est%c %d veces en:\n%s\n", chr, 160,
           countchr(frase, chr), frase);
@@ -77,6 +88,7 @@ char modachr(char str[])
    for (int index = 0; str[index]; index++)
    {
       char character = tolower(str[index]);
+      // char character = str[index] + ('a' - 'A');
       if (character >= 'a' && character <= 'z')
       {
          Alphabet[character - 'a']++;
@@ -130,7 +142,7 @@ void titlecase(char str[])
 {
    if (str[0] >= 'a' && str[0] <= 'z')
    {
-      // str[0] = toupper(str[0]);
+      // str[0] = toupper(str[0]); This is also correct.
       str[0] = str[0] - ('a' - 'A');
    }
    printf("Titlecase: %s\n", str);
@@ -142,7 +154,7 @@ void WordCase(char str[])
    for (int index = 0; str[index]; index++)
    {
       char character = str[index];
-      if ((character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z'))
+      if ((character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) // This is like the function isalpha();
       {
          if (newWord)
          {

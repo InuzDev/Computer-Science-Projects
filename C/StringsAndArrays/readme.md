@@ -37,8 +37,8 @@ In C programming language, strings are treated as arrays. This means, the first 
 ```c
 // Uppercase function
 void UpperCase(char string[]) {
-   if (string[0] <= 'a' && >= 'z') {
-      string[0] = string[0] - ('a' - 'A');
+   if (string[0] <= 'a' && >= 'z') { // This check if the following data is a character.
+      string[0] = string[0] - ('a' - 'A'); // This change it from lowercase to upperCase
    }
    printf("Phrase: %s", string);
 }
@@ -54,3 +54,75 @@ void UpperCase(char string[]) {
    }
 }
 ```
+
+So, now. How we would do uppercase to lowercase?
+Simple!
+
+```c
+void LowerCase(char string[]) {
+   if (string[0] <= 'a' && >= 'z') {// Check if it is a character
+      string[0] = string[0] + ('a' - 'A'); // As you can see, instead of a minus 32, is a plus 32.
+   }
+}
+```
+
+### Avoid buffer overflow
+
+When using `strncpy()`, you can get buffer overflow if you don't define an string size. Let see the exame:
+
+```c
+#include <stdio.h>
+
+int main(void) {
+   char String1[] =-"Hello World" // This is a 12 array. (remember the null value at the end.)
+   char Target[] = "Hello"; // This, automatically get defined as `char Target[6] = {'H', 'e', 'l','l','o','\0'};`
+
+   strncpy(Target, String1, 10); // The text you want to copy in another string goes after the targetted string.
+   printf("%s\n", Target);
+}
+```
+
+> You may wonder what is int main(void), more specifically what is (void), it means get no arguments.
+
+As you can see, and if you know how the compiler works, String1 will be automatically defined as `char String1[12]` and `char Target[6]`. So, when we try to copy `String1` into `Target`, we end up in a weird output and we get buffer overflow.
+
+You can avoid this issue, for example:
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void) {
+   char String1[] =-"Hello World" 
+   char Target[] = "Hello";
+
+   strncpy(Target, String1, sizeof(otra) - 1);
+   otra[sizeof(Target) - 1] = '\0';
+   printf("Estado 3: %s\n", Target);
+
+   return 0
+}
+```
+
+Or, you can try this other solution, which is easier.
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+
+// Define a macro
+#define MAXSTRLENGTH 128
+
+int main(void) {
+   char String1[MAXSTRLENTGH] =-"Hello World" 
+   char Target[MAXTRLENGTH] = "Hello";
+
+   strncopy(Target, String1, 10);
+   printf("%s\n", Target);
+
+   return 0;
+}
+
+```
+
+Defining the array size, to avoid this issue is better and even more understandable.
