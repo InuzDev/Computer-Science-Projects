@@ -6,7 +6,6 @@
 #define ENTER '\n'
 #define ENTER_ALT '\r'
 // Macros del programa
-#define MINDATA 2
 #define MAXDATA 9999
 #define STARTLIMIT 1
 

@@ -1,38 +1,37 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <math.h>
 
 int main()
 {
-   // Optimized approach - Thanks to GeeksforGeeks
-   int n = 21;
-   int cnt = 0;
+   int num = 0, cantNum = 0;
 
-   if (n <= 1)
+   printf("Ingrese un n%cmero -> ", 162);
+   scanf("%d", &num);
+
+   if (num <= 1)
    {
-      printf("%d is NOT prime", n);
+      printf("%d is NOT prime", num);
    }
    else
    {
       // Check how many numbers divide n in
       // range 2 to sqrt(n)
-      for (int i = 2; i * i <= n; i++)
+      for (int i = 2; i * i <= num; i++)
       {
-         if (n % i == 0)
+         if (num % i == 0)
          {
-            cnt++;
+            cantNum++;
          }
       }
 
       // if cnt is greater than 0 then n is not prime
-      if (cnt > 0)
+      if (cantNum > 0)
       {
-         printf("%d is NOT prime", n);
+         printf("%d is NOT prime", num);
       }
       else
       {
-         printf("%d is prime", n);
+         printf("%d is prime", num);
       }
    }
 
