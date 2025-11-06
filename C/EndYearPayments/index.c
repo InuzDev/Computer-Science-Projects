@@ -6,7 +6,7 @@
 #define MAX_SALARY 320000.00
 #define MIN_SALARY 8000.00
 #define MAX_AGE 40
-#define MIN_AGE 0
+#define MIN_AGE 1
 #define MONTHS_IN_YEAR 12
 #define AVG_DAYS_PER_MONTH 23.83
 

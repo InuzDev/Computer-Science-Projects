@@ -1,51 +1,102 @@
 #include <stdio.h>
+#include <ctype.h>
+#include <math.h>
 
-#define INVALID 0
+// Tecla ENTER
+#define ENTER '\n'
+#define ENTER_ALT '\r'
+// Macros del programa
+#define MINDATA 2
+#define MAXDATA 9999
 #define STARTLIMIT 1
 
-int SetArrSize(int LimInf, int LimSup);
 void CleanBuffer();
+float NumberMinusAvg(float Average, float Num);
+float StandarDeviation(int DataSize, float TotalNiPromSquare);
+float NumberMinusAvgSquare(float NiProm);
+float AverageOfData(float SumNum, int DataSize);
 
 int main()
 {
-   int LimSup = 0, arrSize;
+   int Keybind = 0, DataCount = 0;
+   float Data[MAXDATA], DataSum = 0.0f, _Average = 0.0f, NiProm, NiPromAlSquare[MAXDATA], totalNiProm;
+   char UserPrompt = 'N';
 
-   while (LimSup == INVALID)
+   for (int index = 0; index < MAXDATA; index++)
    {
-      printf("Ingrese el limite superior del rango: ");
-      scanf("%d", &LimSup);
-      if (LimSup <= INVALID || LimSup <= STARTLIMIT)
+      printf("Ingrese un n%cmero: ", 163);
+      scanf("%f", &Data[index]);
+
+      CleanBuffer();
+
+      DataCount++;
+      DataSum += Data[index];
+
+      if (DataCount >= 1)
       {
-         printf("Limite invalido, favor de ingresar un limite mayor al limite inferior [%d]\n", STARTLIMIT);
-         LimSup = 0;
+         printf("\nQuiere agregar otro n%cmero? [S]i [N]o ", 163);
+         scanf("%c", &UserPrompt);
+
+         CleanBuffer();
+
+         UserPrompt = toupper(UserPrompt);
+
+         if (UserPrompt == 'N' || Keybind == '\r' || Keybind == '\n')
+         {
+            break;
+         }
       }
    }
+   _Average = AverageOfData(DataSum, DataCount);
 
-   CleanBuffer();
-
-   arrSize = SetArrSize(STARTLIMIT, LimSup);
-   int Storage[arrSize];
-
-   for (int index = 0; index < arrSize; index++)
+   for (int index = 0; index < DataCount; index++)
    {
-      // Storage[index] = (index + LimInf);
-      printf("Ingrese un valor para el indice [%d] almacenar en el arreglo: ", index);
-      scanf("%d", &Storage[index]);
+      NiProm = NumberMinusAvg(_Average, Data[index]);
+      printf("Ni - Prom: %.2f\n", NiProm);
+      NiPromAlSquare[index] = NumberMinusAvgSquare(NiProm);
+      printf("(Ni-Prom)^2: %.2f\n", NiPromAlSquare[index]);
    }
+
+   for (int index = 0; index < DataCount; index++)
+   {
+      totalNiProm += NiPromAlSquare[index];
+   }
+   printf("Total (Ni-Prom)^2: %.2f\n\nTotal N%cmeros: %.2f\n\n", totalNiProm, 163, DataSum);
+
+   float _PopulationDeviation = StandarDeviation(DataCount, totalNiProm);
+   printf("Deviaci%cn: %.2f", 162, _PopulationDeviation);
 
    return 0;
 }
 
-/**
- * Funcion: SetArrSize
- * Argumentos: LimInf, LimSup
- * Objetivo: Establecer el tamaño de una matriz
- * Retorna: ArrSize, que viene siendo el tamaño del arreglo.
- */
-int SetArrSize(int LimInf, int LimSup)
+/*
+Funcion: AverageOfData
+Objetivo Calcular el average de los datos.
+Argumentos: (float) SumNum -> Suma de los numeros introducidos por el usuario,
+(int) DataSize -> Cantidad de datos ingresados en el arreglo.
+*/
+float AverageOfData(float SumNum, int DataSize)
 {
-   int ArrSize = LimSup - LimInf + 1;
-   return ArrSize;
+   float _AverageOfData = 0;
+   return _AverageOfData = (float)SumNum / (float)DataSize;
+}
+
+float NumberMinusAvg(float Average, float Num)
+{
+   float NiProm = 0;
+   return NiProm = Num - Average;
+}
+
+float NumberMinusAvgSquare(float NiProm)
+{
+   float NiPromAlSquare = 0;
+   return NiPromAlSquare = NiProm * NiProm;
+}
+
+float StandarDeviation(int DataSize, float TotalNiPromSquare)
+{
+   float _PopulationStandardDeviation = 0;
+   return _PopulationStandardDeviation = sqrt((TotalNiPromSquare / DataSize));
 }
 
 /*
