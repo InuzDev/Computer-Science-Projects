@@ -3,8 +3,8 @@
 
 #define JUNIOR 1
 #define SENIOR 5
-#define MAX_SALARY 320000.00
-#define MIN_SALARY 8000.00
+#define MAX_SALARY 320000.00f
+#define MIN_SALARY 8000.00f
 #define MAX_AGE 40
 #define MIN_AGE 1
 #define MONTHS_IN_YEAR 12
