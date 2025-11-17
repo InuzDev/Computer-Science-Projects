@@ -5,18 +5,18 @@
 
 #define MAXFIL 20
 #define MAXCOL 20
-#define VAL_INI 3
-#define VAL_END 3225
 
+#define VALINI 25
+#define VALFIN 3245
 #define CANTDIG(X) (int)log10(X) + 1
 
+int summat(int cantfil, int cantcol, int mat[cantfil][cantcol]);
+int maxmat(int cantfil, int cantcol, int mat[cantfil][cantcol]);
+int trazamat(int cantfil, int cantcol, int mat[cantfil][cantcol]);
+void getmat(int cantfil, int cantcol, int mat[cantfil][cantcol]);
+void genmat(int cantfil, int cantcol, int mat[cantfil][cantcol], int valini, int valfin);
+void showmat(int cantfil, int cantcol, int mat[cantfil][cantcol]);
 int randrange(int, int);
-int sumMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol]);
-int maxMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol]);
-int traceMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol]);
-void getMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol]);
-void genMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol], int, int);
-void showMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol]);
 
 int main()
 {
@@ -28,9 +28,7 @@ int main()
       scanf("%d", &cantfil);
 
       if (cantfil <= 0 || cantfil > MAXFIL)
-      {
-         printf("Cantidad de filas debe estar entre [1, %d]\n", MAXFIL);
-      }
+         printf("Cantidad de fila debe estar entre [1,%d]", MAXFIL);
    } while (cantfil <= 0 || cantfil > MAXFIL);
 
    do
@@ -39,116 +37,95 @@ int main()
       scanf("%d", &cantcol);
 
       if (cantcol <= 0 || cantcol > MAXCOL)
-      {
-         printf("Cantidad de columnas debe estar entre [1, %d]\n", MAXCOL);
-      }
+         printf("Cantidad de columnas debe estar entre [1,%d]", MAXCOL);
    } while (cantcol <= 0 || cantcol > MAXCOL);
 
-   int matrix[cantfil][cantcol];
+   srand(time(NULL));
 
-   // getMatrix(cantfil, cantcol, matrix);
-   genMatrix(cantfil, cantcol, matrix, VAL_INI, VAL_END);
+   int mat[cantfil][cantcol];
+
+   // getmat(cantfil,cantcol,mat);
+   genmat(cantfil, cantcol, mat, VALINI, VALFIN);
    system("cls");
-   printf("Valores capturados: \n");
-   showMatrix(cantfil, cantcol, matrix);
-
-   int total = sumMatrix(cantfil, cantcol, matrix);
-   int max = maxMatrix(cantfil, cantcol, matrix);
-   int trace = traceMatrix(cantfil, cantcol, matrix);
-   int cantDig = CANTDIG(total);
-
-   printf("Total: %*d\n", cantDig, total);
-   printf("M%cximo: %d\n", 160, cantDig, max);
+   printf("Valores capturados:\n");
+   showmat(cantfil, cantcol, mat);
+   int total = summat(cantfil, cantcol, mat);
+   int maximo = maxmat(cantfil, cantcol, mat);
+   int traza = trazamat(cantfil, cantcol, mat);
+   int cantdig = CANTDIG(total);
+   printf("Total : %*d\n", cantdig, total);
+   printf("M%cximo: %*d\n", 160, cantdig, maximo);
    if (cantfil != cantcol)
-   {
-      printf("No hay traza");
-   }
+      printf("Traza : %*s\n", cantdig, "N/A");
    else
-   {
-      printf("Traza: %*d\n", cantDig, trace);
-   }
+      printf("Traza : %*d\n", cantdig, traza);
 
    return 0;
+}
+
+int summat(int cantfil, int cantcol, int mat[cantfil][cantcol])
+{
+   int total = 0;
+
+   for (int indfil = 0; indfil < cantfil; indfil++)
+      for (int indcol = 0; indcol < cantcol; indcol++)
+         total += mat[indfil][indcol];
+
+   return total;
+}
+int maxmat(int cantfil, int cantcol, int mat[cantfil][cantcol])
+{
+   int maxval = mat[0][0];
+
+   for (int indfil = 0; indfil < cantfil; indfil++)
+      for (int indcol = 0; indcol < cantcol; indcol++)
+         if (maxval < mat[indfil][indcol])
+            maxval = mat[indfil][indcol];
+   return maxval;
+}
+
+int trazamat(int cantfil, int cantcol, int mat[cantfil][cantcol])
+{
+   int valtraza = 0;
+
+   for (int ind = 0; ind < cantfil; ind++)
+      valtraza += mat[ind][ind];
+
+   return valtraza;
+}
+
+void getmat(int cantfil, int cantcol, int mat[cantfil][cantcol])
+{
+   for (int indfil = 0; indfil < cantfil; indfil++)
+      for (int indcol = 0; indcol < cantcol; indcol++)
+      {
+         printf("Val[%d][%d]: ", indfil + 1, indcol + 1);
+         scanf("%d", &mat[indfil][indcol]);
+      }
+   return;
+}
+
+void genmat(int cantfil, int cantcol, int mat[cantfil][cantcol], int valini, int valfin)
+{
+   for (int indfil = 0; indfil < cantfil; indfil++)
+      for (int indcol = 0; indcol < cantcol; indcol++)
+         mat[indfil][indcol] = randrange(valini, valfin);
+   return;
+}
+
+void showmat(int cantfil, int cantcol, int mat[cantfil][cantcol])
+{
+   int cantdig = (int)log10(maxmat(cantfil, cantcol, mat)) + 1;
+   for (int indfil = 0; indfil < cantfil; indfil++)
+   {
+      for (int indcol = 0; indcol < cantcol; indcol++)
+         printf("%*d ", cantdig, mat[indfil][indcol]);
+      printf("\n");
+   }
+   return;
 }
 
 int randrange(int liminf, int limsup)
 {
    return rand() % (limsup - liminf + 1) + liminf;
-}
-
-int sumMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol])
-{
-   int total = 0;
-
-   for (int indexFil = 0; indexFil < cantfil; indexFil++)
-   {
-      for (int indexCol = 0; indexCol < cantcol; indexCol++)
-      {
-         total += matrix[indexFil][indexCol];
-      }
-   }
-}
-int maxMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol])
-{
-   int maxVal = matrix[0][0];
-
-   for (int indexFil = 0; indexFil < cantfil; indexFil++)
-   {
-      for (int indexCol = 0; indexCol < cantcol; indexCol++)
-      {
-         if (maxVal < matrix[indexFil][indexCol])
-         {
-            maxVal = matrix[indexFil][indexCol];
-         }
-      }
-   }
-}
-int traceMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol])
-{
-   if (cantfil != cantcol)
-   {
-      return -1;
-   }
-
-   int valTrace = 0;
-
-   for (int index = 0; index < cantfil; index++)
-   {
-      valTrace += matrix[index][index];
-   }
-
-   return valTrace;
-}
-void getMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol])
-{
-   for (int indexFil = 0; indexFil < cantfil; indexFil++)
-   {
-      for (int indexCol = 0; indexCol < cantcol; indexCol++)
-      {
-         printf("Val[%d][%d]: ", indexFil + 1, indexCol + 1);
-         scanf("%d", &matrix[indexFil][indexCol]);
-      }
-   }
-}
-void genMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol], int, int)
-{
-   for (int indexFil = 0; indexFil < cantfil; indexFil++)
-   {
-      for (int indexCol = 0; indexCol < cantcol; indexCol++)
-      {
-         matrix[indexFil][indexCol] = randrange(VAL_INI, VAL_END);
-      }
-   }
-}
-void showMatrix(int cantfil, int cantcol, int matrix[cantfil][cantcol])
-{
-   int cantDig = (int)log10(maxMatrix(cantfil, cantcol, matrix)) + 1;
-   for (int indexFil = 0; indexFil < cantfil; indexFil++)
-   {
-      for (int indexCol = 0; indexCol < cantcol; indexCol++)
-      {
-         printf("%*d ", cantDig, matrix[indexFil][indexCol]);
-      }
-      printf("\n");
-   }
 }
