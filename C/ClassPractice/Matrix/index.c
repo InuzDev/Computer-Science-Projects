@@ -138,13 +138,13 @@ int maxMatrix(int dimensions, int Matrix[dimensions][dimensions])
 {
    int maxVal = Matrix[0][0];
 
-   for (int Xindex = 0; Xindex < dimensions; Xindex++)
+   for (int rowIndex = 0; rowIndex < dimensions; rowIndex++)
    {
-      for (int Yindex = 0; Yindex < dimensions; Yindex++)
+      for (int colIndex = 0; colIndex < dimensions; colIndex++)
       {
-         if (maxVal < Matrix[Xindex][Yindex])
+         if (maxVal < Matrix[rowIndex][colIndex])
          {
-            maxVal = Matrix[Xindex][Yindex];
+            maxVal = Matrix[rowIndex][colIndex];
          }
       }
    }
@@ -159,11 +159,11 @@ int maxMatrix(int dimensions, int Matrix[dimensions][dimensions])
  */
 void genMatrix(int MinRange, int MaxRange, int dimensions, int Matrix[dimensions][dimensions])
 {
-   for (int Xindex = 0; Xindex < dimensions; Xindex++)
+   for (int rowIndex = 0; rowIndex < dimensions; rowIndex++)
    {
-      for (int Yindex = 0; Yindex < dimensions; Yindex++)
+      for (int colIndex = 0; colIndex < dimensions; colIndex++)
       {
-         Matrix[Xindex][Yindex] = randrange(MinRange, MaxRange);
+         Matrix[rowIndex][colIndex] = randrange(MinRange, MaxRange);
       }
    }
 }
@@ -205,73 +205,73 @@ void showMatrix(int dimensions, int Matrix[dimensions][dimensions], int RowMark,
    int minVal = Matrix[0][0];
    int maxVal = Matrix[0][0];
 
-   for (int index = 0; index < dimensions; index++)
-      colSum[index] = 0;
+   for (int col = 0; col < dimensions; col++)
+      colSum[col] = 0;
 
-   for (int index = 0; index < dimensions; index++)
+   for (int row = 0; row < dimensions; row++)
    {
-      int value = 0;
-      for (int index = 0; index < dimensions; index++)
+      int rowTotal = 0;
+      for (int col = 0; col < dimensions; col++)
       {
-         int Value = Matrix[index][index];
-         value += Value;
-         colSum[index] += Value;
-         if (Value < minVal)
-            minVal = Value;
-         if (Value > maxVal)
-            maxVal = Value;
+         int cellValue = Matrix[row][col];
+         rowTotal += cellValue;
+         colSum[col] += cellValue;
+         if (cellValue < minVal)
+            minVal = cellValue;
+         if (cellValue > maxVal)
+            maxVal = cellValue;
       }
-      rowSum[index] = value;
-      rowAvg[index] = (float)value / (float)dimensions;
-      totalSum += value;
+      rowSum[row] = rowTotal;
+      rowAvg[row] = (float)rowTotal / (float)dimensions;
+      totalSum += rowTotal;
    }
 
-   for (int Index = 0; Index < dimensions; Index++)
-      colAvg[Index] = (float)colSum[Index] / (float)dimensions;
+   for (int col = 0; col < dimensions; col++)
+      colAvg[col] = (float)colSum[col] / (float)dimensions;
 
    float overallAvg = (float)totalSum / (float)(dimensions * dimensions);
 
    /* Column headers */
    gotoxy(posX - ESP, posY - 2);
    printf("     ");
-   for (int Index = 0; Index < dimensions; Index++)
-      printf("%*d", ESP, Index + 1);
+   for (int col = 0; col < dimensions; col++)
+      printf("%*d", ESP, col + 1);
 
    printf("%*s%*s", ESP, "", ESP, "");
 
-   for (int Index = 0; Index < dimensions; Index++)
+   for (int row = 0; row < dimensions; row++)
    {
-      gotoxy(posX - ESP, posY + Index);
-      printf("R%02d", Index + 1);
+      gotoxy(posX - ESP, posY + row);
+      printf("R%02d", row + 1);
 
-      for (int _index = 0; _index < dimensions; _index++)
+      for (int col = 0; col < dimensions; col++)
       {
-         drawCell(dimensions, Matrix, RowMark, ColMark, RowSel, ColSel, Index, _index, posX, posY);
+         drawCell(dimensions, Matrix, RowMark, ColMark, RowSel, ColSel, row, col, posX, posY);
       }
 
-      gotoxy(posX + dimensions * ESP + 2, posY + Index);
+      gotoxy(posX + dimensions * ESP + 2, posY + row);
       setcolor(CTM, CFM);
-      printf(" %6d %6.2f", rowSum[Index], rowAvg[Index]);
+      printf(" %6d %6.2f", rowSum[row], rowAvg[row]);
       colordefault();
    }
 
    gotoxy(posX - ESP, posY + dimensions + 0);
    printf("SUM");
-   for (int c = 0; c < dimensions; c++)
+   for (int col = 0; col < dimensions; col++)
    {
-      gotoxy(posX + c * ESP, posY + dimensions + 0);
+      gotoxy(posX + col * ESP, posY + dimensions + 0);
       setcolor(CTM, CFM);
-      printf("%6d", colSum[c]);
+      printf("%6d", colSum[col]);
       colordefault();
    }
 
    gotoxy(posX - ESP, posY + dimensions + 1);
    printf("AVG");
-   for (int c = 0; c < dimensions; c++)
+   for (int col = 0; col < dimensions; col++)
    {
-      gotoxy(posX + c * ESP, posY + dimensions + 1);
+      gotoxy(posX + col * ESP, posY + dimensions + 1);
       setcolor(CTM, CFM);
-      printf("%6.2f", colAvg[c]);
+      printf("%6.2f", colAvg[col]);
       colordefault();
    }
 
