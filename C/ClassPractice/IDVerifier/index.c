@@ -13,7 +13,8 @@
 #include <time.h>
 
 #define ASCII_ZERO 48
-
+#define SERIAL_MOD 1000
+#define SEQUENCY_MOD 1000000
 #define GENERATE_MODE 'G'
 #define INPUT_MODE 'D'
 #define EVEN_NUM 6
@@ -135,8 +136,8 @@ void GenerateRandomID(int Quantity)
 {
    for (int index = 0; index < Quantity; index++)
    {
-      int Serial = rand() % 1000;
-      int Sequency = rand() % 1000000;
+      int Serial = rand() % SERIAL_MOD;
+      int Sequency = rand() % SEQUENCY_MOD;
 
       char ID[MAX_INPUT];
       sprintf(ID, "%03d-%07d", Serial, Sequency);
