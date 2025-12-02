@@ -433,12 +433,20 @@ void moveMatrix(int dimensions, int Matrix[dimensions][dimensions], int posX, in
    _setcursortype(CURSOR_100);
 }
 
+/**
+ * Funcion: setcolor
+ * Argumentos: (int) ct, cf
+ */
 void setcolor(int ct, int cf)
 {
    textcolor(ct);
    textbackground(cf);
 }
 
+/**
+ * Funcion: colordefault
+ * Objetivo: poner el color que esta por defecto en la terminal
+ */
 void colordefault(void)
 {
    setcolor(LIGHTGRAY, BLACK);

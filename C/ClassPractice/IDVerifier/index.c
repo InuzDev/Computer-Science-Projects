@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <conio.h>
 
 #define ASCII_ZERO 48
 #define SERIAL_MOD 1000
@@ -88,7 +89,7 @@ int main()
          }
          else
          {
-            printf("C%cdula inv%clida. El digito verificador:%d\n", 130, 160, RealVerifier);
+            printf("C%cdula inv%clida. El digito verificador: %d\n%d", 130, 160, RealVerifier, CalcVerifier);
          }
       }
       else if (toupper(mode) == GENERATE_MODE)
