@@ -1,12 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 // Function to calculate the sum of proper divisors
-int sumOfDivisors(int num)
-{
+int sumOfDivisors(int num) {
    int sum = 0;
-   for (int i = 1; i < num; i++)
-   {
+   for (int i = 1; i < num; i++) {
       if (num % i == 0)
          sum += i;
    }
@@ -14,8 +11,7 @@ int sumOfDivisors(int num)
 }
 
 // Function to classify the number.
-int classify(int num)
-{
+int classify(int num) {
    int sum = sumOfDivisors(num);
    if (sum < num)
       return -1; // Abundant
@@ -27,8 +23,7 @@ int classify(int num)
 }
 
 // Function to check if a number is contradictory
-int isContradictory(int num)
-{
+int isContradictory(int num) {
    int class1 = classify(num);
    if (class1 == 0)
       return 0; // Perfect numbers are not contradictory
@@ -40,12 +35,10 @@ int isContradictory(int num)
 }
 
 // Main function
-int main()
-{
+int main() {
    int rangeA, rangeB = 0;
 
-   do
-   {
+   do {
       printf("Enter the start of the positive range: ");
       scanf("%d", &rangeA);
 
@@ -53,7 +46,8 @@ int main()
       scanf("%d", &rangeB);
 
       if (rangeA <= 0 || rangeB <= 0 || rangeA >= rangeB)
-         printf("Invalid range. Please enter positive numbers with start <= end.\n");
+         printf("Invalid range. Please enter positive numbers with start <= "
+                "end.\n");
    } while (rangeA <= 0 || rangeB <= 0 || rangeA > rangeB);
 
    printf("Contradictory numbers in the range:\n");

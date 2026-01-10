@@ -4,26 +4,23 @@
 
 int sumfact(int); // Definir el prototipo para evitar problemas
 
-int main()
-{
-   // Inicializar las variables de valores enteros de los limites, el valor y la suma de los progresistas
+int main() {
+   // Inicializar las variables de valores enteros de los limites, el valor y la
+   // suma de los progresistas
    int liminf, limpsup, val, sumfacts, _sumfacts, sumprogresistas = 0;
 
-   do
-   {
+   do {
       printf("Ingrese el limite inferior: ");
-      scanf("%d", &liminf);
+      scanf_s("%d", &liminf);
 
    } while (liminf <= 0);
 
-   do
-   {
+   do {
       printf("Ingrese el limite superior: ");
       scanf("%d", &limpsup);
    } while (limpsup <= 0);
 
-   for (val = liminf; val <= limpsup; val++)
-   {
+   for (val = liminf; val <= limpsup; val++) {
       sumfacts = sumfact(val);
 
       if (sumfacts < val)
@@ -35,8 +32,7 @@ int main()
    return 0;
 }
 
-int sumfact(int num)
-{
+int sumfact(int num) {
    int div, totdiv = 0, topediv = num / 2;
 
    for (div = 1; div <= topediv; div++)
