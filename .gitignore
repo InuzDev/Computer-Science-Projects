@@ -3,3 +3,6 @@
 
 # compiled files
 *.exe
+
+# Clang file configuration
+.clangd
