@@ -6,3 +6,4 @@
 
 # Clang file configuration
 .clangd
+.clang-format

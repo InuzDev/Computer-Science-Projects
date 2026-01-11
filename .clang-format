@@ -1,4 +1,8 @@
 BasedOnStyle: LLVM
+---
+Language: C
 IndentWidth: 3
 TabWidth: 3
 UseTab: Never
+BreakStringLiterals: false
+ColumnLimit: 0
