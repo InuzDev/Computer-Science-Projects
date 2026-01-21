@@ -4,6 +4,7 @@
  * indexes and pointers. Consider the pointer exercises
  */
 
+#include <conio.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -29,6 +30,7 @@ int userPrompt(void *Value, DataType type);
 // Prototypes functions for the exercises.
 void swap(float *a, float *b);
 void binary_switcher(int *n, int *b);
+// Debugging functions.
 void printBinary(int n);
 
 int main() {
@@ -89,17 +91,17 @@ int userPrompt(void *Value, DataType type) {
    printf("User prompt: ");
    switch (type) {
    case TYPE_INT:
-      return scanf_s("%d", (int *)Value);
+      return scanf("%d", (int *)Value);
    case TYPE_FLOAT:
-      return scanf_s("%f", (float *)Value);
+      return scanf("%f", (float *)Value);
    case TYPE_DOUBLE:
-      return scanf_s("%lf", (double *)Value);
+      return scanf("%lf", (double *)Value);
    case TYPE_LONG:
-      return scanf_s("%ld", (long *)Value);
+      return scanf("%ld", (long *)Value);
    case TYPE_LONGLONG:
-      return scanf_s("%lld", (long long *)Value);
+      return scanf("%lld", (long long *)Value);
    case TYPE_LONGDOUBLE:
-      return scanf_s("%Lf", (long double *)Value);
+      return scanf("%Lf", (long double *)Value);
    default:
       return 0;
    }
@@ -115,16 +117,13 @@ void swap(float *a, float *b) {
    if (*a == *b) {
       printf("Same value ; AB: %.4f", *a);
    } else {
-      int StoreA = *a;
-      int StoreB = *b;
+      float TempStorage = *b;
 
-      *b = StoreA;
-      *a = StoreB;
+      *b = *a;
+      *a = TempStorage;
       printf("a: %.4f\nb: %.4f", *a, *b);
    }
 }
-
-// we need to make a helper to output the data in this function
 
 /**
  * Function: binary_switcher
