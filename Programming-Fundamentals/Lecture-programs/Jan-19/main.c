@@ -279,16 +279,6 @@ float GetAvgValue_Line(int Dimension, int Matrix[Dimension][Dimension], int User
    return sum / Dimension;
 }
 
-float GetMatrizAverage(int Dimension, int Matrix[Dimension][Dimension]) {
-   float sum = 0;
-   for (int x_index = 0; x_index < Dimension; x_index++) {
-      for (int y_index; y_index; y_index++) {
-         sum += Matrix[x_index][y_index];
-      }
-   }
-   return sum / Dimension;
-}
-
 /**
  * Funcion: CheckChairPoint
  * Argumentos: (int) x_line - El eje x de la matriz, y_line - El eje y de la matriz., int Matrix[x_line][y_line] - Matriz dada desde Main
