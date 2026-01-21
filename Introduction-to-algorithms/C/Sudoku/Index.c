@@ -91,40 +91,40 @@ void colordefault(void);
 void setcolor(int ct, int cf);
 
 int main() {
-  srand(time(NULL));
-  int Sudoku[DIMENSION][DIMENSION] = {0};
-  int CheckerMatrix[DIMENSION][DIMENSION] = {0};
-  int PlayerMatrix[DIMENSION][DIMENSION];
-  int Difficulty = 0;
-  int MaxErrors = 0;
+   srand(time(NULL));
+   int Sudoku[DIMENSION][DIMENSION] = {0};
+   int CheckerMatrix[DIMENSION][DIMENSION] = {0};
+   int PlayerMatrix[DIMENSION][DIMENSION];
+   int Difficulty = 0;
+   int MaxErrors = 0;
 
-  FillSudokuWithSubMatrix(Sudoku);
+   FillSudokuWithSubMatrix(Sudoku);
 
-  while (Difficulty == 0 || Difficulty > DIFFICULTY_HARD) {
-    printf("Ingrese el nivel de dificultad:\n\n \tFacil: 1\n \tIntermedio: 2\n "
-           "\tDificil: 3\n");
-    scanf("%d", &Difficulty);
-    if (Difficulty == 0 || Difficulty > DIFFICULTY_HARD) {
-      printf("Por, favor. Ingrese un valid valido.\n");
-    }
-  }
+   while (Difficulty == 0 || Difficulty > DIFFICULTY_HARD) {
+      printf("Ingrese el nivel de dificultad:\n\n \tFacil: 1\n \tIntermedio: 2\n "
+             "\tDificil: 3\n");
+      scanf("%d", &Difficulty);
+      if (Difficulty == 0 || Difficulty > DIFFICULTY_HARD) {
+         printf("Por, favor. Ingrese un valid valido.\n");
+      }
+   }
 
-  system("cls");
+   system("cls");
 
-  generateBlockMask(CheckerMatrix);
-  buildPlayerGrid(PlayerMatrix, Sudoku, CheckerMatrix);
+   generateBlockMask(CheckerMatrix);
+   buildPlayerGrid(PlayerMatrix, Sudoku, CheckerMatrix);
 
-  if (Difficulty == DIFFICULTY_EASY) {
-    MaxErrors = DIFFICULT_MAX_ERROR_EASY;
-  } else if (Difficulty == DIFFICULTY_MEDIUM) {
-    MaxErrors = DIFFICULT_MAX_ERROR_MEDIUM;
-  } else if (Difficulty == DIFFICULTY_HARD) {
-    MaxErrors = DIFFICULT_MAX_ERROR_HARD;
-  }
+   if (Difficulty == DIFFICULTY_EASY) {
+      MaxErrors = DIFFICULT_MAX_ERROR_EASY;
+   } else if (Difficulty == DIFFICULTY_MEDIUM) {
+      MaxErrors = DIFFICULT_MAX_ERROR_MEDIUM;
+   } else if (Difficulty == DIFFICULTY_HARD) {
+      MaxErrors = DIFFICULT_MAX_ERROR_HARD;
+   }
 
-  PlayerMovement(Sudoku, PlayerMatrix, CheckerMatrix, MaxErrors);
+   PlayerMovement(Sudoku, PlayerMatrix, CheckerMatrix, MaxErrors);
 
-  return 0;
+   return 0;
 }
 
 /**
@@ -134,13 +134,13 @@ int main() {
  * MaxRange] Retorna: Un entero aleatorio dentro del rango especificado.
  */
 int randNumGen(int MinRange, int MaxRange) {
-  int range = MaxRange - MinRange + 1;
-  int limit = RAND_MAX - (RAND_MAX % range);
-  int row;
-  do {
-    row = rand();
-  } while (row >= limit);
-  return MinRange + (row % range);
+   int range = MaxRange - MinRange + 1;
+   int limit = RAND_MAX - (RAND_MAX % range);
+   int row;
+   do {
+      row = rand();
+   } while (row >= limit);
+   return MinRange + (row % range);
 }
 
 /**
@@ -149,11 +149,11 @@ int randNumGen(int MinRange, int MaxRange) {
  * Objetivo: Rellenar una submatriz 3x3 con numeros aleatorios entre 1 y 9.
  */
 void genSubMatrix(int Sudoku[GENERATION_DIMENSION][GENERATION_DIMENSION]) {
-  for (int Xindex = 0; Xindex < GENERATION_DIMENSION; Xindex++) {
-    for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
-      Sudoku[Xindex][Yindex] = randNumGen(MIN_RANDRANGE, MAX_RANDRANGE);
-    }
-  }
+   for (int Xindex = 0; Xindex < GENERATION_DIMENSION; Xindex++) {
+      for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
+         Sudoku[Xindex][Yindex] = randNumGen(MIN_RANDRANGE, MAX_RANDRANGE);
+      }
+   }
 }
 
 /**
@@ -166,11 +166,11 @@ void genSubMatrix(int Sudoku[GENERATION_DIMENSION][GENERATION_DIMENSION]) {
 void placeSubMatrix(int Sudoku[DIMENSION][DIMENSION],
                     int SubMatrix[GENERATION_DIMENSION][GENERATION_DIMENSION],
                     int startRow, int startCol) {
-  for (int Xindex = 0; Xindex < GENERATION_DIMENSION; Xindex++) {
-    for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
-      Sudoku[startRow + Xindex][startCol + Yindex] = SubMatrix[Xindex][Yindex];
-    }
-  }
+   for (int Xindex = 0; Xindex < GENERATION_DIMENSION; Xindex++) {
+      for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
+         Sudoku[startRow + Xindex][startCol + Yindex] = SubMatrix[Xindex][Yindex];
+      }
+   }
 }
 
 /**
@@ -181,15 +181,15 @@ void placeSubMatrix(int Sudoku[DIMENSION][DIMENSION],
  * numeros 1..9.
  */
 void FillSudokuWithSubMatrix(int Sudoku[DIMENSION][DIMENSION]) {
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
-    for (int Yindex = 0; Yindex < DIMENSION; Yindex++)
-      Sudoku[Xindex][Yindex] = 0;
-
-  if (!CheckSudokuSolutionStatus(Sudoku, 0, 0)) {
-    for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
       for (int Yindex = 0; Yindex < DIMENSION; Yindex++)
-        Sudoku[Xindex][Yindex] = 0;
-  }
+         Sudoku[Xindex][Yindex] = 0;
+
+   if (!CheckSudokuSolutionStatus(Sudoku, 0, 0)) {
+      for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
+         for (int Yindex = 0; Yindex < DIMENSION; Yindex++)
+            Sudoku[Xindex][Yindex] = 0;
+   }
 }
 
 /**
@@ -201,14 +201,14 @@ void FillSudokuWithSubMatrix(int Sudoku[DIMENSION][DIMENSION]) {
 void buildPlayerGrid(int PlayerMatrix[DIMENSION][DIMENSION],
                      int Sudoku[DIMENSION][DIMENSION],
                      int GridOverlay[DIMENSION][DIMENSION]) {
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
-    for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
-      if (GridOverlay[Xindex][Yindex] == 1)
-        PlayerMatrix[Xindex][Yindex] = Sudoku[Xindex][Yindex];
-      else
-        PlayerMatrix[Xindex][Yindex] = 0;
-    }
-  }
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
+      for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
+         if (GridOverlay[Xindex][Yindex] == 1)
+            PlayerMatrix[Xindex][Yindex] = Sudoku[Xindex][Yindex];
+         else
+            PlayerMatrix[Xindex][Yindex] = 0;
+      }
+   }
 }
 
 /**
@@ -218,23 +218,23 @@ void buildPlayerGrid(int PlayerMatrix[DIMENSION][DIMENSION],
  *           1 y 4 celdas por bloque para ser reveladas (marcadas con 1).
  */
 void generateBlockMask(int SubMatrix[DIMENSION][DIMENSION]) {
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex += 3) {
-    for (int Yindex = 0; Yindex < DIMENSION; Yindex += 3) {
-      int clues = 1 + rand() % 4;
-      int filled = 0;
-      while (filled < clues) {
-        int _Random1 = randNumGen(0, 2);
-        int _Random2 = randNumGen(0, 2);
-        int globalRow = Xindex + _Random1;
-        int globalCol = Yindex + _Random2;
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex += 3) {
+      for (int Yindex = 0; Yindex < DIMENSION; Yindex += 3) {
+         int clues = 1 + rand() % 4;
+         int filled = 0;
+         while (filled < clues) {
+            int _Random1 = randNumGen(0, 2);
+            int _Random2 = randNumGen(0, 2);
+            int globalRow = Xindex + _Random1;
+            int globalCol = Yindex + _Random2;
 
-        if (SubMatrix[globalRow][globalCol] == 0) {
-          SubMatrix[globalRow][globalCol] = 1;
-          filled++;
-        }
+            if (SubMatrix[globalRow][globalCol] == 0) {
+               SubMatrix[globalRow][globalCol] = 1;
+               filled++;
+            }
+         }
       }
-    }
-  }
+   }
 }
 
 /**
@@ -246,34 +246,34 @@ void generateBlockMask(int SubMatrix[DIMENSION][DIMENSION]) {
  */
 void drawCellStyle(int row, int col, int cursorRow, int cursorCol, int isGiven,
                    int displayValue) {
-  const int cellWidth = 3;
-  const int LEFT_MARGIN = 1;
-  const int TOP_MARGIN = 1;
+   const int cellWidth = 3;
+   const int LEFT_MARGIN = 1;
+   const int TOP_MARGIN = 1;
 
-  int x = LEFT_MARGIN + col * cellWidth;
-  int y = TOP_MARGIN + row;
+   int x = LEFT_MARGIN + col * cellWidth;
+   int y = TOP_MARGIN + row;
 
-  int blockRow = row / 3;
-  int blockCol = col / 3;
+   int blockRow = row / 3;
+   int blockCol = col / 3;
 
-  int blockIndex = blockRow * 3 + blockCol;
-  int blockBg[DIMENSION] = {COLOR1, COLOR2, COLOR4, COLOR5, COLOR6,
-                            COLOR7, COLOR8, COLOR9, COLOR10};
-  int bgColor = blockBg[blockIndex % 9];
+   int blockIndex = blockRow * 3 + blockCol;
+   int blockBg[DIMENSION] = {COLOR1, COLOR2, COLOR4, COLOR5, COLOR6,
+                             COLOR7, COLOR8, COLOR9, COLOR10};
+   int bgColor = blockBg[blockIndex % 9];
 
-  if (row == cursorRow && col == cursorCol)
-    setcolor(COLOR1, COLOR3);
-  else
-    setcolor(COLOR3, bgColor);
+   if (row == cursorRow && col == cursorCol)
+      setcolor(COLOR1, COLOR3);
+   else
+      setcolor(COLOR3, bgColor);
 
-  gotoxy(x, y);
+   gotoxy(x, y);
 
-  if (displayValue == 0)
-    printf(DEFAULT_PLAYER_VIEW);
-  else
-    printf(" %d ", displayValue);
+   if (displayValue == 0)
+      printf(DEFAULT_PLAYER_VIEW);
+   else
+      printf(" %d ", displayValue);
 
-  colordefault();
+   colordefault();
 }
 
 /**
@@ -286,14 +286,14 @@ void drawCellStyle(int row, int col, int cursorRow, int cursorCol, int isGiven,
 void drawCandidateCell(int PlayerMatrix[DIMENSION][DIMENSION], int Row, int Col,
                        int cursorRow, int cursorCol, int selectionMode,
                        int candidate, int givens[DIMENSION][DIMENSION]) {
-  int displayValue;
-  if (selectionMode && Row == cursorRow && Col == cursorCol)
-    displayValue = candidate;
-  else
-    displayValue = PlayerMatrix[Row][Col];
+   int displayValue;
+   if (selectionMode && Row == cursorRow && Col == cursorCol)
+      displayValue = candidate;
+   else
+      displayValue = PlayerMatrix[Row][Col];
 
-  int isGiven = (givens[Row][Col] != 0);
-  drawCellStyle(Row, Col, cursorRow, cursorCol, isGiven, displayValue);
+   int isGiven = (givens[Row][Col] != 0);
+   drawCellStyle(Row, Col, cursorRow, cursorCol, isGiven, displayValue);
 }
 
 /**
@@ -303,14 +303,14 @@ void drawCandidateCell(int PlayerMatrix[DIMENSION][DIMENSION], int Row, int Col,
  */
 void drawStatus(int leftX, int topY, int Errors, int MaxErrors,
                 int selectionMode) {
-  gotoxy(leftX, topY);
-  printf("Fallas: %d/%d   ", Errors, MaxErrors);
+   gotoxy(leftX, topY);
+   printf("Fallas: %d/%d   ", Errors, MaxErrors);
 
-  gotoxy(leftX, topY + 1);
-  if (!selectionMode)
-    printf("Mover: Flechas  |  ENTER: Seleccionar valor  |  ESC: Salir    ");
-  else
-    printf("Seleccion: UP/DOWN para cambiar, ENTER confirmar, ESC cancelar   ");
+   gotoxy(leftX, topY + 1);
+   if (!selectionMode)
+      printf("Mover: Flechas  |  ENTER: Seleccionar valor  |  ESC: Salir    ");
+   else
+      printf("Seleccion: UP/DOWN para cambiar, ENTER confirmar, ESC cancelar   ");
 }
 
 /**
@@ -323,12 +323,12 @@ void drawStatus(int leftX, int topY, int Errors, int MaxErrors,
 void drawCell(int PlayerMatrix[DIMENSION][DIMENSION], int row, int col,
               int cursorRow, int cursorCol, int selectionMode, int candidate,
               int givens[DIMENSION][DIMENSION]) {
-  int displayValue = PlayerMatrix[row][col];
-  if (selectionMode && row == cursorRow && col == cursorCol)
-    displayValue = candidate;
+   int displayValue = PlayerMatrix[row][col];
+   if (selectionMode && row == cursorRow && col == cursorCol)
+      displayValue = candidate;
 
-  int isGiven = (givens[row][col] != 0);
-  drawCellStyle(row, col, cursorRow, cursorCol, isGiven, displayValue);
+   int isGiven = (givens[row][col] != 0);
+   drawCellStyle(row, col, cursorRow, cursorCol, isGiven, displayValue);
 }
 
 /**
@@ -338,27 +338,27 @@ void drawCell(int PlayerMatrix[DIMENSION][DIMENSION], int row, int col,
  *           prompts) en una linea dedicada.
  */
 void showTransientMsg(int leftX, int topY, int msgId) {
-  gotoxy(leftX, topY);
-  switch (msgId) {
-  case 0:
-    printf("%-60s", "\0");
-    break;
-  case 1:
-    printf("%-60s", "No puedes cambiar una pista");
-    break;
-  case 2:
-    printf("%-60s", "Entrada invalida");
-    break;
-  case 3:
-    printf("%-60s", "Seleccion cancelada");
-    break;
-  case 4:
-    printf("%-60s", "Seguro que desea salir?");
-  default:
-    printf("%-60s", "\0");
-    break;
-  }
-  fflush(stdout);
+   gotoxy(leftX, topY);
+   switch (msgId) {
+   case 0:
+      printf("%-60s", "\0");
+      break;
+   case 1:
+      printf("%-60s", "No puedes cambiar una pista");
+      break;
+   case 2:
+      printf("%-60s", "Entrada invalida");
+      break;
+   case 3:
+      printf("%-60s", "Seleccion cancelada");
+      break;
+   case 4:
+      printf("%-60s", "Seguro que desea salir?");
+   default:
+      printf("%-60s", "\0");
+      break;
+   }
+   fflush(stdout);
 }
 
 /**
@@ -371,169 +371,169 @@ void showTransientMsg(int leftX, int topY, int msgId) {
 void PlayerMovement(int sudoku[DIMENSION][DIMENSION],
                     int PlayerMatrix[DIMENSION][DIMENSION],
                     int SubMatrix[DIMENSION][DIMENSION], int MaxErrors) {
-  int cursorRow = 0, cursorCol = 0;
-  int Errors = 0;
-  int selectionMode = 0;
-  int candidate = 0;
-  int prefix = 0;
-  int key;
+   int cursorRow = 0, cursorCol = 0;
+   int Errors = 0;
+   int selectionMode = 0;
+   int candidate = 0;
+   int prefix = 0;
+   int key;
 
-  const int LEFT_MARGIN = 1;
-  const int TOP_MARGIN = 1;
+   const int LEFT_MARGIN = 1;
+   const int TOP_MARGIN = 1;
 
-  _setcursortype(CURSOR_0);
+   _setcursortype(CURSOR_0);
 
-  ShowPlayerMatrix(PlayerMatrix, cursorRow, cursorCol, selectionMode, candidate,
-                   SubMatrix);
-  drawStatus(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 1, Errors, MaxErrors,
-             selectionMode);
-  showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
+   ShowPlayerMatrix(PlayerMatrix, cursorRow, cursorCol, selectionMode, candidate,
+                    SubMatrix);
+   drawStatus(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 1, Errors, MaxErrors,
+              selectionMode);
+   showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
 
-  int prevRow = cursorRow, prevCol = cursorCol;
+   int prevRow = cursorRow, prevCol = cursorCol;
 
-  do {
-    key = getch();
-    if (key == 0 || key == 224) {
-      prefix = key;
+   do {
       key = getch();
-    } else {
-      prefix = 0;
-    }
-
-    int fullRedraw = 0;
-
-    if (!selectionMode) {
-      if (prefix && key == UP)
-        cursorRow = (cursorRow + DIMENSION - 1) % DIMENSION;
-      else if (prefix && key == DOWN)
-        cursorRow = (cursorRow + 1) % DIMENSION;
-      else if (prefix && key == LEFT)
-        cursorCol = (cursorCol + DIMENSION - 1) % DIMENSION;
-      else if (prefix && key == RIGHT)
-        cursorCol = (cursorCol + 1) % DIMENSION;
-      else if (key == ENTER) {
-
-        if (SubMatrix[cursorRow][cursorCol] != 0) {
-          showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 1);
-
-          sleep(1);
-          showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
-        } else {
-          selectionMode = 1;
-
-          candidate = PlayerMatrix[cursorRow][cursorCol];
-          if (candidate < 1 || candidate > 9)
-            candidate = 1;
-        }
+      if (key == 0 || key == 224) {
+         prefix = key;
+         key = getch();
+      } else {
+         prefix = 0;
       }
-    } else {
 
-      if (prefix && key == UP) {
-        candidate = (candidate == 9) ? 1 : candidate + 1;
-      } else if (prefix && key == DOWN) {
-        candidate = (candidate == 1) ? 9 : candidate - 1;
-      } else if (key == ENTER) {
+      int fullRedraw = 0;
 
-        int prev = PlayerMatrix[cursorRow][cursorCol];
-        if (prev != 0 && prev != candidate) {
-          Errors++;
-          if (Errors >= MaxErrors) {
-            system("cls");
-            printf("Has perdido! N%cmero de fallas: (%d)\n", 163, MaxErrors);
-            _setcursortype(CURSOR_100);
-            return;
-          }
-        }
+      if (!selectionMode) {
+         if (prefix && key == UP)
+            cursorRow = (cursorRow + DIMENSION - 1) % DIMENSION;
+         else if (prefix && key == DOWN)
+            cursorRow = (cursorRow + 1) % DIMENSION;
+         else if (prefix && key == LEFT)
+            cursorCol = (cursorCol + DIMENSION - 1) % DIMENSION;
+         else if (prefix && key == RIGHT)
+            cursorCol = (cursorCol + 1) % DIMENSION;
+         else if (key == ENTER) {
 
-        PlayerMatrix[cursorRow][cursorCol] = candidate;
-        selectionMode = 0;
-        candidate = 0;
-      } else if (key == ESC) {
+            if (SubMatrix[cursorRow][cursorCol] != 0) {
+               showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 1);
 
-        selectionMode = 0;
-        candidate = 0;
-        showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 2);
-        sleep(1);
-        showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
-      } else if (prefix && key == LEFT) {
+               sleep(1);
+               showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
+            } else {
+               selectionMode = 1;
 
-        cursorCol = (cursorCol + DIMENSION - 1) % DIMENSION;
-
-        if (SubMatrix[cursorRow][cursorCol] != 0)
-          candidate = 0;
-        else {
-          candidate = PlayerMatrix[cursorRow][cursorCol];
-          if (candidate < MIN_RANDRANGE || candidate > MAX_RANDRANGE)
-            candidate = 1;
-        }
-      } else if (prefix && key == RIGHT) {
-        cursorCol = (cursorCol + 1) % DIMENSION;
-        if (SubMatrix[cursorRow][cursorCol] != 0)
-          candidate = 0;
-        else {
-          candidate = PlayerMatrix[cursorRow][cursorCol];
-          if (candidate < MIN_RANDRANGE || candidate > MAX_RANDRANGE)
-            candidate = 1;
-        }
-      } else if (prefix && key == UP && key == DOWN) {
-      }
-    }
-
-    if (prevRow != cursorRow || prevCol != cursorCol) {
-
-      drawCell(PlayerMatrix, prevRow, prevCol, cursorRow, cursorCol,
-               selectionMode, candidate, SubMatrix);
-
-      if (selectionMode)
-        drawCandidateCell(PlayerMatrix, cursorRow, cursorCol, cursorRow,
-                          cursorCol, selectionMode, candidate, SubMatrix);
-      else
-        drawCell(PlayerMatrix, cursorRow, cursorCol, cursorRow, cursorCol,
-                 selectionMode, candidate, SubMatrix);
-
-      prevRow = cursorRow;
-      prevCol = cursorCol;
-    } else {
-
-      if (selectionMode) {
-        drawCandidateCell(PlayerMatrix, cursorRow, cursorCol, cursorRow,
-                          cursorCol, selectionMode, candidate, SubMatrix);
+               candidate = PlayerMatrix[cursorRow][cursorCol];
+               if (candidate < 1 || candidate > 9)
+                  candidate = 1;
+            }
+         }
       } else {
 
-        drawCell(PlayerMatrix, cursorRow, cursorCol, cursorRow, cursorCol,
-                 selectionMode, candidate, SubMatrix);
+         if (prefix && key == UP) {
+            candidate = (candidate == 9) ? 1 : candidate + 1;
+         } else if (prefix && key == DOWN) {
+            candidate = (candidate == 1) ? 9 : candidate - 1;
+         } else if (key == ENTER) {
+
+            int prev = PlayerMatrix[cursorRow][cursorCol];
+            if (prev != 0 && prev != candidate) {
+               Errors++;
+               if (Errors >= MaxErrors) {
+                  system("cls");
+                  printf("Has perdido! N%cmero de fallas: (%d)\n", 163, MaxErrors);
+                  _setcursortype(CURSOR_100);
+                  return;
+               }
+            }
+
+            PlayerMatrix[cursorRow][cursorCol] = candidate;
+            selectionMode = 0;
+            candidate = 0;
+         } else if (key == ESC) {
+
+            selectionMode = 0;
+            candidate = 0;
+            showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 2);
+            sleep(1);
+            showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
+         } else if (prefix && key == LEFT) {
+
+            cursorCol = (cursorCol + DIMENSION - 1) % DIMENSION;
+
+            if (SubMatrix[cursorRow][cursorCol] != 0)
+               candidate = 0;
+            else {
+               candidate = PlayerMatrix[cursorRow][cursorCol];
+               if (candidate < MIN_RANDRANGE || candidate > MAX_RANDRANGE)
+                  candidate = 1;
+            }
+         } else if (prefix && key == RIGHT) {
+            cursorCol = (cursorCol + 1) % DIMENSION;
+            if (SubMatrix[cursorRow][cursorCol] != 0)
+               candidate = 0;
+            else {
+               candidate = PlayerMatrix[cursorRow][cursorCol];
+               if (candidate < MIN_RANDRANGE || candidate > MAX_RANDRANGE)
+                  candidate = 1;
+            }
+         } else if (prefix && key == UP && key == DOWN) {
+         }
       }
-    }
 
-    drawStatus(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 1, Errors, MaxErrors,
-               selectionMode);
+      if (prevRow != cursorRow || prevCol != cursorCol) {
 
-    if (!selectionMode) {
-      int complete = 1;
-      for (int Xindex = 0; Xindex < DIMENSION && complete; Xindex++)
-        for (int Yindex = 0; Yindex < DIMENSION && complete; Yindex++)
-          if (PlayerMatrix[Xindex][Yindex] == 0)
-            complete = 0;
+         drawCell(PlayerMatrix, prevRow, prevCol, cursorRow, cursorCol,
+                  selectionMode, candidate, SubMatrix);
 
-      if (complete) {
-        system("cls");
-        printf("Felicidades, completaste el Sudoku!\n");
-        _setcursortype(CURSOR_100);
-        return;
+         if (selectionMode)
+            drawCandidateCell(PlayerMatrix, cursorRow, cursorCol, cursorRow,
+                              cursorCol, selectionMode, candidate, SubMatrix);
+         else
+            drawCell(PlayerMatrix, cursorRow, cursorCol, cursorRow, cursorCol,
+                     selectionMode, candidate, SubMatrix);
+
+         prevRow = cursorRow;
+         prevCol = cursorCol;
+      } else {
+
+         if (selectionMode) {
+            drawCandidateCell(PlayerMatrix, cursorRow, cursorCol, cursorRow,
+                              cursorCol, selectionMode, candidate, SubMatrix);
+         } else {
+
+            drawCell(PlayerMatrix, cursorRow, cursorCol, cursorRow, cursorCol,
+                     selectionMode, candidate, SubMatrix);
+         }
       }
-    }
 
-    if (key == ESC) {
-      showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 4);
+      drawStatus(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 1, Errors, MaxErrors,
+                 selectionMode);
 
-      sleep(1);
-      key = getch();
-      showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
-    }
+      if (!selectionMode) {
+         int complete = 1;
+         for (int Xindex = 0; Xindex < DIMENSION && complete; Xindex++)
+            for (int Yindex = 0; Yindex < DIMENSION && complete; Yindex++)
+               if (PlayerMatrix[Xindex][Yindex] == 0)
+                  complete = 0;
 
-  } while (!(prefix == 0 && key == ESC));
+         if (complete) {
+            system("cls");
+            printf("Felicidades, completaste el Sudoku!\n");
+            _setcursortype(CURSOR_100);
+            return;
+         }
+      }
 
-  _setcursortype(CURSOR_100);
+      if (key == ESC) {
+         showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 4);
+
+         sleep(1);
+         key = getch();
+         showTransientMsg(LEFT_MARGIN, TOP_MARGIN + DIMENSION + 3, 0);
+      }
+
+   } while (!(prefix == 0 && key == ESC));
+
+   _setcursortype(CURSOR_100);
 }
 
 /**
@@ -546,19 +546,19 @@ void PlayerMovement(int sudoku[DIMENSION][DIMENSION],
 void ShowPlayerMatrix(int PlayerMatrix[DIMENSION][DIMENSION], int cursorRow,
                       int cursorCol, int selectionMode, int candidate,
                       int givens[DIMENSION][DIMENSION]) {
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
-    for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
-      int displayValue = PlayerMatrix[Xindex][Yindex];
-      if (selectionMode && Xindex == cursorRow && Yindex == cursorCol)
-        displayValue = candidate;
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
+      for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
+         int displayValue = PlayerMatrix[Xindex][Yindex];
+         if (selectionMode && Xindex == cursorRow && Yindex == cursorCol)
+            displayValue = candidate;
 
-      int isGiven = (givens[Xindex][Yindex] != 0);
-      drawCellStyle(Xindex, Yindex, cursorRow, cursorCol, isGiven,
-                    displayValue);
-    }
-  }
+         int isGiven = (givens[Xindex][Yindex] != 0);
+         drawCellStyle(Xindex, Yindex, cursorRow, cursorCol, isGiven,
+                       displayValue);
+      }
+   }
 
-  gotoxy(1, 1 + DIMENSION + (DIMENSION / 3));
+   gotoxy(1, 1 + DIMENSION + (DIMENSION / 3));
 }
 
 /**
@@ -568,52 +568,52 @@ void ShowPlayerMatrix(int PlayerMatrix[DIMENSION][DIMENSION], int cursorRow,
  * repetidos. Retorna: 0 si no es valida, 1 si es valida.
  */
 int isValidSudoku(int Sudoku[DIMENSION][DIMENSION]) {
-  int seen[DIMENSION + 1];
+   int seen[DIMENSION + 1];
 
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
-    for (int Index = 1; Index <= DIMENSION; Index++)
-      seen[Index] = 0;
-    for (int columnIndex = 0; columnIndex < DIMENSION; columnIndex++) {
-      int sudokuCellValue = Sudoku[Xindex][columnIndex];
-      if (sudokuCellValue < MIN_NUM_SUDOKU || sudokuCellValue > MAX_NUM_SUDOKU)
-        return 0;
-      if (seen[sudokuCellValue])
-        return 0;
-      seen[sudokuCellValue] = 1;
-    }
-  }
-
-  for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
-    for (int Index = 1; Index <= DIMENSION; Index++)
-      seen[Index] = 0;
-    for (int Rows = 0; Rows < DIMENSION; Rows++) {
-      int isValidCell = Sudoku[Rows][Yindex];
-      if (isValidCell < MIN_NUM_SUDOKU || isValidCell > MAX_NUM_SUDOKU)
-        return 0;
-      if (seen[isValidCell])
-        return 0;
-      seen[isValidCell] = MIN_NUM_SUDOKU;
-    }
-  }
-
-  for (int RowIndex = 0; RowIndex < GENERATION_DIMENSION; RowIndex++) {
-    for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex++) {
       for (int Index = 1; Index <= DIMENSION; Index++)
-        seen[Index] = 0;
-      for (int Rows = RowIndex * 3; Rows < RowIndex * 3 + 3; Rows++) {
-        for (int Cols = Yindex * 3; Cols < Yindex * 3 + 3; Cols++) {
-          int selectedCell = Sudoku[Rows][Cols];
-          if (selectedCell < MIN_NUM_SUDOKU || selectedCell > MAX_NUM_SUDOKU)
+         seen[Index] = 0;
+      for (int columnIndex = 0; columnIndex < DIMENSION; columnIndex++) {
+         int sudokuCellValue = Sudoku[Xindex][columnIndex];
+         if (sudokuCellValue < MIN_NUM_SUDOKU || sudokuCellValue > MAX_NUM_SUDOKU)
             return 0;
-          if (seen[selectedCell])
+         if (seen[sudokuCellValue])
             return 0;
-          seen[selectedCell] = 1;
-        }
+         seen[sudokuCellValue] = 1;
       }
-    }
-  }
+   }
 
-  return 1;
+   for (int Yindex = 0; Yindex < DIMENSION; Yindex++) {
+      for (int Index = 1; Index <= DIMENSION; Index++)
+         seen[Index] = 0;
+      for (int Rows = 0; Rows < DIMENSION; Rows++) {
+         int isValidCell = Sudoku[Rows][Yindex];
+         if (isValidCell < MIN_NUM_SUDOKU || isValidCell > MAX_NUM_SUDOKU)
+            return 0;
+         if (seen[isValidCell])
+            return 0;
+         seen[isValidCell] = MIN_NUM_SUDOKU;
+      }
+   }
+
+   for (int RowIndex = 0; RowIndex < GENERATION_DIMENSION; RowIndex++) {
+      for (int Yindex = 0; Yindex < GENERATION_DIMENSION; Yindex++) {
+         for (int Index = 1; Index <= DIMENSION; Index++)
+            seen[Index] = 0;
+         for (int Rows = RowIndex * 3; Rows < RowIndex * 3 + 3; Rows++) {
+            for (int Cols = Yindex * 3; Cols < Yindex * 3 + 3; Cols++) {
+               int selectedCell = Sudoku[Rows][Cols];
+               if (selectedCell < MIN_NUM_SUDOKU || selectedCell > MAX_NUM_SUDOKU)
+                  return 0;
+               if (seen[selectedCell])
+                  return 0;
+               seen[selectedCell] = 1;
+            }
+         }
+      }
+   }
+
+   return 1;
 }
 
 /**
@@ -623,21 +623,21 @@ int isValidSudoku(int Sudoku[DIMENSION][DIMENSION]) {
  *             (int) row, col, num
  */
 int IsCellSafe(int grid[DIMENSION][DIMENSION], int row, int col, int num) {
-  for (int Yindex = 0; Yindex < DIMENSION; Yindex++)
-    if (grid[row][Yindex] == num)
-      return 0;
-  for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
-    if (grid[Xindex][col] == num)
-      return 0;
+   for (int Yindex = 0; Yindex < DIMENSION; Yindex++)
+      if (grid[row][Yindex] == num)
+         return 0;
+   for (int Xindex = 0; Xindex < DIMENSION; Xindex++)
+      if (grid[Xindex][col] == num)
+         return 0;
 
-  int startRow = (row / 3) * 3;
-  int startCol = (col / 3) * 3;
-  for (int Xindex = startRow; Xindex < startRow + 3; Xindex++)
-    for (int Yindex = startCol; Yindex < startCol + 3; Yindex++)
-      if (grid[Xindex][Yindex] == num)
-        return 0;
+   int startRow = (row / 3) * 3;
+   int startCol = (col / 3) * 3;
+   for (int Xindex = startRow; Xindex < startRow + 3; Xindex++)
+      for (int Yindex = startCol; Yindex < startCol + 3; Yindex++)
+         if (grid[Xindex][Yindex] == num)
+            return 0;
 
-  return 1;
+   return 1;
 }
 
 /**
@@ -648,25 +648,25 @@ int IsCellSafe(int grid[DIMENSION][DIMENSION], int row, int col, int num) {
  */
 int CheckSudokuSolutionStatus(int grid[DIMENSION][DIMENSION], int row,
                               int col) {
-  if (row == DIMENSION)
-    return 1;
+   if (row == DIMENSION)
+      return 1;
 
-  int nextRow = (col == DIMENSION - 1) ? row + 1 : row;
-  int nextCol = (col == DIMENSION - 1) ? 0 : col + 1;
+   int nextRow = (col == DIMENSION - 1) ? row + 1 : row;
+   int nextCol = (col == DIMENSION - 1) ? 0 : col + 1;
 
-  if (grid[row][col] != 0)
-    return CheckSudokuSolutionStatus(grid, nextRow, nextCol);
+   if (grid[row][col] != 0)
+      return CheckSudokuSolutionStatus(grid, nextRow, nextCol);
 
-  for (int num = 1; num <= 9; num++) {
-    if (IsCellSafe(grid, row, col, num)) {
-      grid[row][col] = num;
-      if (CheckSudokuSolutionStatus(grid, nextRow, nextCol))
-        return 1;
-      grid[row][col] = 0;
-    }
-  }
+   for (int num = 1; num <= 9; num++) {
+      if (IsCellSafe(grid, row, col, num)) {
+         grid[row][col] = num;
+         if (CheckSudokuSolutionStatus(grid, nextRow, nextCol))
+            return 1;
+         grid[row][col] = 0;
+      }
+   }
 
-  return 0;
+   return 0;
 }
 
 /**
@@ -675,8 +675,8 @@ int CheckSudokuSolutionStatus(int grid[DIMENSION][DIMENSION], int row,
  * Objetivo: Poner un color especifico dado por otra funcion
  */
 void setcolor(int ct, int cf) {
-  textcolor(ct);
-  textbackground(cf);
+   textcolor(ct);
+   textbackground(cf);
 }
 
 /**

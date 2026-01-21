@@ -1,7 +1,9 @@
-/**
+/*
  * main.c ; Carlos David Jorge Taveras
  *
- * Chair point ; Class Exercise
+ * saddle point ; Class Exercise
+ *
+ * expected compiled file : saddle-point.exe
  */
 
 #include <conio.c>
@@ -19,13 +21,14 @@
 #define DOWN 80
 #define RIGHT 77
 #define LEFT 75
+
 #define ENTER 13
 #define ESC 27
 
-#define CT BLUE
-#define CF GREEN
-#define CURSOR_CT GREEN
-#define CURSOR_CF BLUE
+#define CT YELLOW
+#define CF BLUE
+#define CURSOR_CT RED
+#define CURSOR_CF GREEN
 #define SELECTED_CT GREEN
 #define SELECTED_CF YELLOW
 
@@ -36,6 +39,11 @@
 #define INIT_VALUE 0
 #define INIT_POSX 0
 #define INIT_POSY 0
+
+#define INFO_WIDTH 20
+
+#define CURSOR_0 0
+#define CURSOR_100 100
 
 int Exist(int Dimension, int Matrix[Dimension][Dimension], int Value);
 int CheckChairPoint(int x_line, int y_line, int Matrix[x_line][y_line], int UserXPos, int UserYPos);
@@ -49,6 +57,7 @@ void setcolor(int cf, int ct);
 void colordefault(void);
 void Matrix_Initializer(int Dimension, int Matrix[Dimension][Dimension], int Init_value);
 void GenerateMatrix(int Dimension, int Matrix[Dimension][Dimension]);
+void ShowInfoPanel(int Dimension, int Matrix[Dimension][Dimension], int screenXpos, int screenYpos, int oldX, int oldY, int cursorX, int cursorY);
 void ShowMatrix(int Dimension, int Matrix[Dimension][Dimension], int screenXpos, int screenYpos, int cursorXpos, int cursorYpos);
 void Movement_engine(int Dimension, int Matrix[Dimension][Dimension], int XPos, int YPos);
 
@@ -57,7 +66,7 @@ int main() {
    srand(time(NULL));
 
    int Dimension = 0;
-   int MatrixDebuggingExample[3][3] = {{25, 200, 300}, {50, 100, 200}, {30, 500, 350}};
+   // int DEBUGGINGMATRIX_EXAMPLE[3][3] = {{25, 200, 300}, {50, 100, 200}, {30, 500, 350}};
 
    do {
       printf("Ingrese las dimensiones de la matriz: ");
@@ -69,8 +78,14 @@ int main() {
 
    int CreateMatrix[Dimension][Dimension];
 
+   gotoxy(5, 2 * Dimension + 5);
+   printf("Presione [ESC] para salir del programa.");
+
    GenerateMatrix(Dimension, CreateMatrix);
-   Movement_engine(Dimension, MatrixDebuggingExample, INIT_SCREENX, INIT_SCREENY);
+   // Movement_engine(Dimension, DEBUGGINGMATRIX_EXAMPLE, INIT_SCREENX, INIT_SCREENY);
+   Movement_engine(Dimension, CreateMatrix, INIT_SCREENX, INIT_SCREENY);
+   colordefault();
+   system("cls");
 
    return 0;
 }
@@ -151,6 +166,43 @@ void GenerateMatrix(int Dimension, int Matrix[Dimension][Dimension]) {
    }
 }
 
+/*
+ * Funcion: ShowInfoPanel
+ * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[Dimension][Dimension] - Matriz cuadrada dada, screenXpos - Prosicion en eje X de la matriz, screenYpos - posicion en eje Y de la matriz, oldX - Posicion antigua del cursor en eje X, oldY - Posicion antigua del cursor en eje Y, cursorX - Posicion actual del cursor en eje X, cursorY - Posicion actual del cursor en eje Y
+ * Objetivo: Mostrar y actualizar la posicion del panel de informacion de cada fila y columna.
+ */
+void ShowInfoPanel(int Dimension, int Matrix[Dimension][Dimension], int screenXpos, int screenYpos, int oldX, int oldY, int cursorX, int cursorY) {
+
+   int MaxWidth = MAX_DIGIT(GetMaxValue(Dimension, Dimension, Matrix)) + 1;
+
+   gotoxy(screenXpos + Dimension * MaxWidth + 2, screenYpos + oldX + 1);
+   printf("%*s", MaxWidth * 3, "");
+
+   gotoxy(screenXpos + oldY * MaxWidth, screenYpos + Dimension + 1);
+   printf("%*s", MaxWidth + 3, "");
+
+   gotoxy(screenXpos + oldY * MaxWidth, screenYpos + Dimension + 2);
+   printf("%*s", MaxWidth + 3, "");
+
+   float rowAvg = GetAvgValue_Line(Dimension, Matrix, cursorX);
+   int rowMin = GetMinValue_Line(Dimension, Matrix, cursorX);
+
+   float colAvg = GetAvgValue_Column(Dimension, Matrix, cursorY);
+   int colMax = GetMaxValue_Column(Dimension, Matrix, cursorY);
+
+   setcolor(CURSOR_CT, CURSOR_CF);
+   gotoxy(screenXpos + Dimension * MaxWidth + 2, screenYpos + cursorX + 1);
+   printf("%*.*f %*d", MaxWidth, 2, rowAvg, MaxWidth, rowMin);
+
+   setcolor(CURSOR_CT, CURSOR_CF);
+   gotoxy(screenXpos + cursorY * MaxWidth, screenYpos + Dimension + 1);
+   printf("%*.*f", MaxWidth, 2, colAvg);
+
+   setcolor(CURSOR_CT, CURSOR_CF);
+   gotoxy(screenXpos + cursorY * MaxWidth, screenYpos + Dimension + 2);
+   printf("%*d", MaxWidth, colMax);
+}
+
 /**
  * Funcion: ShowMatrix
  * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[][] - Matriz a mostrar, XPos - Eje X, YPos - Eje Y.
@@ -159,15 +211,8 @@ void GenerateMatrix(int Dimension, int Matrix[Dimension][Dimension]) {
 void ShowMatrix(int Dimension, int Matrix[Dimension][Dimension], int screenXpos, int screenYpos, int cursorXpos, int cursorYpos) {
    int MaxWidth = MAX_DIGIT(GetMaxValue(Dimension, Dimension, Matrix)) + 1;
 
-   float rowAvg = GetAvgValue_Line(Dimension, Matrix, cursorXpos);
-   int rowMin = GetMinValue_Line(Dimension, Matrix, cursorXpos);
-
-   int columnMax = GetMaxValue_Column(Dimension, Matrix, cursorYpos);
-   float columnAvg = GetAvgValue_Line(Dimension, Matrix, cursorYpos);
-
    for (int x_index = 0; x_index < Dimension; x_index++) {
       for (int y_index = 0; y_index < Dimension; y_index++) {
-
          if (x_index == cursorXpos && y_index == cursorYpos) {
             if (CheckChairPoint(Dimension, Dimension, Matrix, cursorXpos, cursorYpos)) {
                setcolor(SELECTED_CT, SELECTED_CF);
@@ -177,21 +222,9 @@ void ShowMatrix(int Dimension, int Matrix[Dimension][Dimension], int screenXpos,
          } else {
             setcolor(CT, CF);
          }
+
          gotoxy(screenXpos + y_index * MaxWidth + 1, screenYpos + x_index + 1);
          printf("%*d", MaxWidth, Matrix[x_index][y_index]);
-
-         gotoxy(screenXpos + MaxWidth + 2, screenYpos + cursorXpos + 1);
-         printf("%8.4f %d", rowAvg, rowMin);
-
-         gotoxy(screenXpos + cursorYpos * MaxWidth + 1,
-                screenYpos + Dimension + 2);
-         printf("%8.4f", columnAvg);
-
-         gotoxy(screenXpos + cursorYpos * MaxWidth + 1,
-                screenYpos + Dimension + 3);
-         printf("%d", columnMax);
-
-         gotoxy(Dimension + 1, screenYpos);
       }
       colordefault();
    }
@@ -250,7 +283,7 @@ float GetAvgValue_Column(int Dimension, int Matrix[Dimension][Dimension], int Us
 
 /**
  * Funcion: GetMaxValue_Line
- * Argumentos: (int) Dimension - Dimension de la matriz., Matrix[][] - Matriz dada, UserXPos - Posicion del usuario en eje X, UserYPos - Posicion del usuario en eje Y.
+ * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[][] - Matriz dada, UserXPos - Posicion del usuario en eje X, UserYPos - Posicion del usuario en eje Y.
  * Objetivo: Obtener el valor maximo de la fila y de la columna.
  * Retorna: Valor Maximo de la fila y de la columna.
  */
@@ -275,16 +308,6 @@ float GetAvgValue_Line(int Dimension, int Matrix[Dimension][Dimension], int User
    float sum = 0;
    for (int y_index = 0; y_index < Dimension; y_index++) {
       sum += Matrix[UserXPos][y_index];
-   }
-   return sum / Dimension;
-}
-
-float GetMatrizAverage(int Dimension, int Matrix[Dimension][Dimension]) {
-   float sum = 0;
-   for (int x_index = 0; x_index < Dimension; x_index++) {
-      for (int y_index; y_index; y_index++) {
-         sum += Matrix[x_index][y_index];
-      }
    }
    return sum / Dimension;
 }
@@ -322,14 +345,17 @@ void Movement_engine(int Dimension, int Matrix[Dimension][Dimension], int screen
    char key;
    int CursorX = INIT_POSX, CursorY = INIT_POSY;
 
+   _setcursortype(CURSOR_0);
+
+   ShowMatrix(Dimension, Matrix, screenXpos, screenYpos, CursorX, CursorY);
+   ShowInfoPanel(Dimension, Matrix, screenXpos, screenYpos, CursorX, CursorY, CursorX, CursorY);
+
    do {
-      _setcursortype(0);
-      ShowMatrix(Dimension, Matrix, screenXpos, screenYpos, CursorX, CursorY);
+      int OldCursorX = CursorX, OldCursorY = CursorY;
 
       do {
          key = getch();
       } while (key != UP && key != DOWN && key != RIGHT && key != LEFT && key != ENTER && key != ESC);
-
       if (key == RIGHT) {
          if (CursorY < Dimension - 1) {
             CursorY++;
@@ -353,5 +379,8 @@ void Movement_engine(int Dimension, int Matrix[Dimension][Dimension], int screen
             CursorX++;
          }
       }
+      ShowMatrix(Dimension, Matrix, screenXpos, screenYpos, CursorX, CursorY);
+      ShowInfoPanel(Dimension, Matrix, screenXpos, screenYpos, OldCursorX, OldCursorY, CursorX, CursorY);
    } while (key != ESC);
+   _setcursortype(CURSOR_100);
 }
