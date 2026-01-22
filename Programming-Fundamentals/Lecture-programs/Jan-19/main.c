@@ -122,6 +122,7 @@ void colordefault(void) {
  * Funcion: Exist
  * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[Dimension][Dimension] - Matriz ingresada en la funcion, Value - Valor de la celda a examinar
  * Objetivo: Verificar si el numero existe en la matriz, en tal caso de que exista, retorna 1, en caso de que no retorna 0.
+ * Retorna: 1 si el numero existe, 0 si no existe.
  */
 int Exist(int Dimension, int Matrix[Dimension][Dimension], int Value) {
    for (int x_index = 0; x_index < Dimension; x_index++) {
@@ -257,21 +258,22 @@ int GetMaxValue(int Line, int Column, int Matrix[Line][Column]) {
  * Retorna: Valor Maximo de la fila y de la columna.
  */
 int GetMaxValue_Column(int Dimension, int Matrix[Dimension][Dimension], int UserYPos) {
-   int MaxVal_Line = Matrix[0][UserYPos];
+   int MaxVal_Column = Matrix[0][UserYPos];
 
    for (int x_index = 0; x_index < Dimension; x_index++) {
-      if (Matrix[x_index][UserYPos] > MaxVal_Line) {
-         MaxVal_Line = Matrix[x_index][UserYPos];
+      if (Matrix[x_index][UserYPos] > MaxVal_Column) {
+         MaxVal_Column = Matrix[x_index][UserYPos];
       }
    }
 
-   return MaxVal_Line;
+   return MaxVal_Column;
 }
 
 /**
  * Funcion: GetAvgValue_Column
  * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[][] - Matriz dada en main, UserYPos - Posicion del usuario en la matriz en eje Y
  * Objetivo: Obtener el average de la columna.
+ * Retorna: el average los valores de la columna.
  */
 float GetAvgValue_Column(int Dimension, int Matrix[Dimension][Dimension], int UserYPos) {
    float sum = 0;
@@ -288,21 +290,22 @@ float GetAvgValue_Column(int Dimension, int Matrix[Dimension][Dimension], int Us
  * Retorna: Valor Maximo de la fila y de la columna.
  */
 int GetMinValue_Line(int Dimension, int Matrix[Dimension][Dimension], int UserXPos) {
-   int MaxVal_Column = Matrix[UserXPos][0];
+   int MaxVal_Line = Matrix[UserXPos][0];
 
    for (int y_index = 0; y_index < Dimension; y_index++) {
-      if (Matrix[UserXPos][y_index] < MaxVal_Column) {
-         MaxVal_Column = Matrix[UserXPos][y_index];
+      if (Matrix[UserXPos][y_index] < MaxVal_Line) {
+         MaxVal_Line = Matrix[UserXPos][y_index];
       }
    }
 
-   return MaxVal_Column;
+   return MaxVal_Line;
 }
 
 /*
  * Funcion: GetAvgValue_Line
  * Argumentos: (int) Dimension - Dimension de la matriz, Matrix[][] - Matriz dada en main, UserXPos - Posicion del usuario en la matriz en eje X
  * Objetivo: Obtener el averaje de la fila de la matriz dada.
+ * Retorna: El average de los valores de la fila,
  */
 float GetAvgValue_Line(int Dimension, int Matrix[Dimension][Dimension], int UserXPos) {
    float sum = 0;
