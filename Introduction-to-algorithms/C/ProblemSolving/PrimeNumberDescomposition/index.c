@@ -14,20 +14,16 @@ Digite un número: 0
 */
 
 #include <stdio.h>
-#include <stdlib.h>
 
 void Factorization(int num);
 
-int main()
-{
+int main() {
    int Num;
-   do
-   {
+   do {
       printf("ingrese un n%cmero entero: ", 163);
       scanf("%d", &Num);
 
-      if (Num > 0)
-      {
+      if (Num > 0) {
          printf("%d = \n", Num);
          Factorization(Num);
       }
@@ -37,20 +33,16 @@ int main()
    return 0;
 }
 
-void Factorization(int num)
-{
+void Factorization(int num) {
    int Factor = 2;
-   while (num > 1)
-   {
+   while (num > 1) {
       int count = 0;
-      while (num % Factor == 0)
-      {
+      while (num % Factor == 0) {
          count++;
          num /= Factor;
       }
 
-      if (count > 0)
-      {
+      if (count > 0) {
          printf("%d^%d\n", Factor, count);
       }
       Factor++;

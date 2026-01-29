@@ -7,41 +7,31 @@ retorne 1 si n es dorsal y 0 si no lo es.
 
 */
 
-#include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 
 int dorsal(int num);
 
-int main()
-{
+int main() {
    int num;
    printf("Introduzca un valor entero: ");
    scanf("%d", &num);
 
-   if (dorsal(num))
-   {
+   if (dorsal(num)) {
       printf("%d es dorsal\n", num);
-   }
-   else
-   {
+   } else {
       printf("%d no es dorsal\n", num);
    }
    return 0;
 }
 
-int dorsal(int num)
-{
+int dorsal(int num) {
    int Units = num % 100;
    int Centenas = num / 100;
    int Result = (Centenas * Centenas) + (Units * Units);
 
-   if (Result == num)
-   {
+   if (Result == num) {
       return 1;
-   }
-   else
-   {
+   } else {
       return 0;
    }
 }

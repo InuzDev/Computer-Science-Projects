@@ -10,20 +10,17 @@ un mes. Si comenzamos con una pareja fértil y no muere,
 Fibonacci sucession is: F(n) = F(n - 1) + F(n - 2)
 
 */
-#include <stdlib.h>
 #include <stdio.h>
 
 #define MONTH 12
 
-int main()
-{
+int main() {
    long long f1 = 1, f2 = 1, fn;
 
    printf("Mes 1: %lld\n", f1);
    printf("Mes 1: %lld\n", f2);
 
-   for (int index = 3; index <= MONTH; index++)
-   {
+   for (int index = 3; index <= MONTH; index++) {
       fn = f1 + f2;
       printf("Mes %d: %lld\n", index, fn);
       f1 = f2;

@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int main()
-{
+int main() {
    // We now going to try and create the workflow to make the MaxNum program
 
    /*
@@ -16,10 +14,8 @@ int main()
    int Max = 0;
    int numbersLength = sizeof(numbers) / sizeof(numbers[0]); // This will give us the lenght of the array
 
-   for (int Index = 0; Index < numbersLength; Index++)
-   {
-      if (numbers[Index] > Max)
-      {
+   for (int Index = 0; Index < numbersLength; Index++) {
+      if (numbers[Index] > Max) {
          Max = numbers[Index];
       }
    }
