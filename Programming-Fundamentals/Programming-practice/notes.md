@@ -1,5 +1,71 @@
 # Notas - Charles David ; Estudio sobre lenguaje C
 
+## Estructuras de contorl: Bucles
+
+Veamos el siguiente ejemplo:
+
+```c
+#include <stdio.h>
+
+int main() {
+   int num_lines = 5;
+   char white = ' ';
+   char drawing_point = '*';
+
+   int row, whites, count_as;
+   puts(" "); // leave a white space
+
+   for (row = 0; row <= num_lines; row++) {
+      putchar('\t');
+      // Write spaces
+      for (whites = num_lines - row; whites > 0; whites--) {
+         putchar(white);
+      }
+
+      for (count_as = 1; count_as < 2 * row; count_as++) {
+         putchar(drawing_point);
+      }
+      puts(" ");
+   }
+   return 0;
+}
+```
+
+El programa dibuja un triángulo isosceles. Cada vez que se repite el bucle externo se ejecutan los dos bucles internos. El bucle eterno se repite cinco veces (cinco filas); el numero de repeticiones realizadas por los bucles internos se basan en el valor de la variable `fila`. El primer bucle interno visualiza los espacios en blanco no significativos; el segundo bucle interno visualiza uno o mas asteriscos.
+
+### Ejercicios
+
+- Cual es la salida del siguiente segmento de programa?
+
+```c
+for (cuenta = 1; cuenta < 5; cuenta++) {
+   printf("%d ", (2 * cuenta));
+}
+```
+
+_Iteraciones_
+
+1. 2 \* 1 = 2 ; cuenta = 2 ; cuenta < 5? Verdadero
+2. 2 \* 2 = 4 ; cuenta = 3 ; cuenta < 5? Verdadero
+3. 2 \* 3 = 6 ; cuenta = 4 ; cuenta < 5? Verdadero
+4. 2 \* 4 = 8 ; cuenta = 5 ; cuenta < 5? Falso
+
+- Cual es la salida de los siguientes bucles?
+
+```c
+for (n = 10; n > 0; n = n-2) {
+   printf("Hola");
+   printf(" %d \n", n);
+}
+```
+
+```c
+double n = 2;
+for (; n > 0; n = n-0.5) {
+   printf("%g ", n);
+}
+```
+
 ## Concepto de función
 
 C es un programa diseñado para ser estructurado, por eso se le dice que es un lenguaje de programación modular. Los programas modulares operan con diferentes modulos, en lenguaje C se le conocen como funciones. Las funciones tienen objetivos especificos en un programa, esto hace que sea más comodo el mantenimiento a futuro y el desarrollo en el presente más rápido.

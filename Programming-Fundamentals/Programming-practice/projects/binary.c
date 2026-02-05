@@ -1,3 +1,4 @@
+#include "binary.h"
 #include <stdio.h>
 /**
  * Function: binary_switcher
