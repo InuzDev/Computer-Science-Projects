@@ -1,0 +1,180 @@
+# Notas - Charles David ; Estudio sobre lenguaje C
+
+## Concepto de función
+
+C es un programa diseñado para ser estructurado, por eso se le dice que es un lenguaje de programación modular. Los programas modulares operan con diferentes modulos, en lenguaje C se le conocen como funciones. Las funciones tienen objetivos especificos en un programa, esto hace que sea más comodo el mantenimiento a futuro y el desarrollo en el presente más rápido.
+
+Un ejemplo de lo que no se debe hacer en un programa en C seria:
+
+```c
+int main() {
+   /* Código para obtener una lista de caracteres */
+   ...
+   /* Código para alfabetizar los caracteres */
+   ...
+   /* Código para visualizar la lista por orden alfabético */
+   ...
+   return 0;
+}
+```
+
+Los programas deben ser modulares, el método mostrado anteriormente es incomodo para el futuro, y dificil de trabajar ya que se puede perder facil el código. El mejor medio seria haciendo funciones prototipo y citando las funciones en el `main()`.
+
+```c
+#include <stdio.h>
+
+int obtenercaracteres();
+int alfabetizar();
+void verletras();
+
+int main() {
+   obtenercaracteres();
+   alfabetizar();
+   verletras();
+
+   return 0;
+}
+
+int obtenercaracteres() {
+   /* Código para obtener caracteres */
+}
+
+int alfabetizar() {
+   /* Código para organizar los caracteres en orden alfabetico */
+}
+
+void verletras() {
+   /* Código para visualizar lista de alfabetizada. */
+}
+```
+
+Aqui se ve que cada función realiza una determinada tarea y cuando se ejecuta `return`, se retorna en que fue llamada por el programa o función principal.
+
+## Estructura de una función
+
+Las funciones son sentencias las cuales se pueden llamar desde cualquier parte de un programa. Las funciones permiten un grado de abstracción en la resolución de un problema especifico.
+
+**Las funciones en C no se pueden anidar**. Esto significa que una función no puede ser declarada dentro de otra función. La razón de esto para permitir un acceso muy eficiente a los datos. En C todas las funciones son externas o globales, es decir, pueden ser llamdas desde cualquier punto del programa.
+
+La estructura de una función en C se muestra aqui:
+
+```
+tipo-de-retorno <int, char, double, long double, ...> nombreFunción (Parametros) {
+   <Código de la función>
+
+   <return expresión>
+}
+```
+
+- tipo-de-retorno <- tipo de valor devuelto por la función o la palabra reservada void si la función no devuelve ningún valor.
+- nombreFunción <- Identificador o nombre de la función.
+- listaDeParámetros <- Lista de declaraciones de los parámetros de la función separados por comas.
+- expresión <- Expresión que se evalúa y se devuelve como resultado de la función.
+
+Ejemplo de una función:
+
+```c
+float suma(float num1, float num2) {
+   float resp;
+   resp = num1 + num2;
+   return resp;
+}
+```
+
+- `float suma(float num1, float num2) {...}` ; Viene siendo la cabezera de una función.
+- `float num1`y`float num2`vienen siendo parametros de la funcion.
+- `float resp` ; viene siendo una variable de la función.
+- `resp = num1 + num2;` ; Esto es una operación de suma.
+- `return resp` ; Aqui se esta devolviendo o retornando el valor de la función.
+
+Desde main, se llama la función suma:
+
+```c
+int main() {
+   int num1 = 3, num2 = 34;
+
+   printf("%.2f", suma((float)num1, (float)num2));
+
+   return 0;
+}
+```
+
+> (float)<variable> es para convertir una variable que no es flotante o decimal, a flotante o decimal.
+
+## Resultados de una función
+
+Una función puede devolver un único valor. El resultado puede ser cualquier tipo de dato EXCEPTO otra función o un arreglo _(array)_. Se pueden devolver valores multiples devolviendo un puntero o una estructura. El valor de retorno debe seguir las mismas reglas que se aplican a un operador de asignación. Por ejemplo, no se puede devolver un valor int, si el tipo de retorno es un puntero Sin embargo, si se devuelve un int y el tipo de retorno es un float, se realiza la conversión automáticamente.
+
+_Se recomienda igualmente devolver o retornar un valor del mismo tipo que de la función para una mayor claridad._
+
+Una función puede tener cualquier número de sentencias `return`. Tan pronto como el programa encuentre cualquiera de las sentencias return, devuelve control a la sentencia llamadora. La ejecución de la función termina si no se encuentra ninguna sentencia return, en este caso, la ejecución continúa hasta la llave final del cuerpode la función.
+
+Si el tipo de retorno es `void`, la sentencia return se puede escribir como `return;` sin ninguna expresión de retorno, o bien, de modo alternativo se puede omitir la sentencia `return;`
+
+```c
+void func1(void) {
+   puts("Esta funci%cn no devuelve valores", 162); // 162 es código ASCII de la 'ó'.
+}
+```
+
+### Consejo
+
+- Aunque no es obligatorio el uso de la sentencia `return` en la última linea, se recomienda su uso, ya que ayuda a recordar el retorno en ese punto a la función llamadora.
+
+## Funciones numéricas
+
+Virtualmente cualquier operación aritmética es posible en un programa C. Las funciones matemáticas disponibles son:
+
+- matemáticas
+- trigonométricas
+- logarítmicas
+- exponenciales
+- aleatorias
+
+La mayoría de las funciones numéricas están en el archivo de cabecera `MATH.H`; las funciones abs y labs están definidas en `MATH.H`, y las rutinas div y ldiv en `STDLIB.H`.
+
+## Funciones matemáticas
+
+Las funciones matemáticas usuales en la biblioteca estándar son
+
+- `ceil(x)` ; retorna al entero más cercano
+- `fabs(x)` ; devuelve el valor absoluto de x (un valor positivo)
+- `floor(x)` ; redondea por defecto al entero más próximo
+
+## Funciones trigonométricas
+
+Las biblioteca de C incluye una serie de funciones que sirven para realizar cálculos trigonométricos. Es necesario incluir en su programa el archivo de cabecera `MATH.H` para utilizar cualquier función.
+
+- `acos(x)` ; Calcula el arco coseno del argumento x. El argumento x debe estar entre -1 y 1.
+- `asin(x)` ; Calcula el arco seno del argumento x. El argumento x debe estar entre -1 y 1.
+- `atan(x)` ; Calcula el arco tangente del argumento x.
+- `atan2(x, y)` ; Calcula el arco tangente de x divido por y.
+- `cos(x)` ; Calcula el coseno del ángulo x ; x se expresa en radianes.
+- `sin(x)` ; Calcula el seno del ángulo x ; x se expresa en radianes.
+- `tan(x)` ; Devuelve la tangente del ángulo x ; x se expresa en radianes.
+
+> Si necesita pasar un ángulo expresado en grados a radianes, para poder utilizarlo con las funciones trigonométricas, multiplique los grados por pi/180, donde pi = 3.14159...
+
+## Funciones logarítmicas y exponenciales
+
+Las funciones logarítmicas y exponenciales suelen ser utilizadas en frecuencia no sólo en matemáticas, sino también en el mundo de la empresa y los negocios. Estas funciones requieren también el archivo de inclusión `MATH.H`
+
+- `exp(x), expl(x)` ; Calcula el exponencial e, donde e es la base de logaritmos naturales de valor 2.718282.
+
+```c
+valor = exp(5.0);
+```
+
+Una variante de esta función es `expl`, que calcula e utilizando un valor long double.
+
+- `log(x), logl(x)` ; La funcion log calcula el logaritmo natural del argumento x y `logl(x)` calcula el citado logaritmo natural del argumento x de valor long double.
+- `log10(x), log10l(x)` ; Calcula el logaritmo decimal del argumento x, de valor real double en `log10(x)` y de valor real long double en `log10l(x)` ; x ha de ser positivo.
+
+## Funciones aleatorias
+
+Los números aleatorios son de gran utilidad en numerosas aplicaciones y requieren un trato especial en cualquier lenguaje de programación. C no es una excepción y la mayoría de los compiladores incorporan funciones que generan números aleatorios. Las funciones usuales de la biblioteca estándar de C son:
+`rand, random, randomize y srand`. Estas funciones se encuentran en el archivo `STDLIB.H`.
+
+### rand(void)
+
+La funcion rand genera un número aleatorio. El número calculado por rand varía en el rango entero de 0 y `RAND-MAX`. La constante `RAND-MAX` se define en el archivo `STDLIB.H` en forma hexadecimal (por ejemplo, 7FFF). En consecuencia, asegúrese incluir dicho archivo en la parte superior de su programa.

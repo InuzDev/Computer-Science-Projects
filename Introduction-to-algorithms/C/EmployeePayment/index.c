@@ -15,8 +15,7 @@ float RawSalary(float Payment, int HourWork);
 float CalcDeduction(float _rawSalary);
 float NetSalary(float _rawSalary);
 
-int main()
-{
+int main() {
    int Employees, extra = 0, totalHours = 0, totalExtra = 0;
    int ExtraHours[4];
    int HoursWork[MAX_EMPLOYEES];
@@ -24,39 +23,32 @@ int main()
    int totalExtraHours[4] = {0, 0, 0, 0};
    float totalRaw = 0.0f, totalDeduction = 0.0f, totalNeto = 0.0f;
 
-   while (1)
-   {
+   while (1) {
       printf("Introduzca cuantos empleados va a calcular: ");
       scanf("%d", &Employees);
-      if (Employees > MAX_EMPLOYEES || Employees < MIN_EXMPLOYEES)
-      {
+      if (Employees > MAX_EMPLOYEES || Employees < MIN_EXMPLOYEES) {
          printf("Cantidad de empleados invalida, los cantidad de empleados debe estar en [1, 20]\n");
          continue;
       }
       break;
    }
 
-   for (int index = 1; index <= Employees; index++)
-   {
+   for (int index = 1; index <= Employees; index++) {
       printf("Empleado: %d\n", index);
-      while (1)
-      {
+      while (1) {
          printf("Introduzca las horas trabajadas: ");
          scanf("%d", &HoursWork[index]);
-         if (HoursWork[index] > MAX_HOURS || HoursWork[index] < MIN_HOURS)
-         {
+         if (HoursWork[index] > MAX_HOURS || HoursWork[index] < MIN_HOURS) {
             printf("Horas invalidas, ingrese una hora valida [30, 80]\n");
             continue;
          }
          break;
       }
 
-      while (1)
-      {
+      while (1) {
          printf("Pago por hora: ");
          scanf("%f", &Payment[index]);
-         if (Payment[index] > MAX_PAYMENT || Payment[index] < MIN_PAYMENT)
-         {
+         if (Payment[index] > MAX_PAYMENT || Payment[index] < MIN_PAYMENT) {
             printf("Pago por hora invalido, el pago debe estar entre [100.00, 550.00]\n");
             continue;
          }
@@ -66,8 +58,7 @@ int main()
    printf("\n");
    printf("| %-8s | %-5s | %-7s | %-12s | %-12s | %-3s | %-3s | %-3s | %-3s | %-10s | %-11s |\n",
           "Empleado", "Horas", "Precio", "Horas Extras", "Sueldo Bruto", "34%", "45%", "50%", "100%", "Deduccion", "Sueldo Neto");
-   for (int index = 1; index <= Employees; index++)
-   {
+   for (int index = 1; index <= Employees; index++) {
       int extra = (HoursWork[index] > 44) ? (HoursWork[index] - 44) : 0;
       ExtraBreakdown(HoursWork[index], ExtraHours);
       float _rawSalary = RawSalary(Payment[index], HoursWork[index]);
@@ -98,22 +89,14 @@ int main()
  * Objetivo: Calcular la deducción del salario a base de cuanto gana
  * Retorna: (float) Deducción del salario.
  */
-float CalcDeduction(float _rawSalary)
-{
-   if (_rawSalary >= 17000.0f)
-   {
+float CalcDeduction(float _rawSalary) {
+   if (_rawSalary >= 17000.0f) {
       return (12000.0f - 8000.0f) * DEDUCTMIN + (17000.0f - 12000.0) * DEDUCTMID + (_rawSalary - 17000.0f) * DEDUCTMAX;
-   }
-   else if (_rawSalary >= 12000.0f)
-   {
+   } else if (_rawSalary >= 12000.0f) {
       return (12000.0f - 8000.0f) * DEDUCTMIN + (17000.0f - 12000.0) * DEDUCTMID;
-   }
-   else if (_rawSalary >= 8000.0f)
-   {
+   } else if (_rawSalary >= 8000.0f) {
       return (12000.0f - 8000.0f) * DEDUCTMIN;
-   }
-   else
-   {
+   } else {
       return 0.0f;
    }
 }
@@ -124,8 +107,7 @@ float CalcDeduction(float _rawSalary)
  * Objetivo: Calcular el salario neto, restando la deducción
  * Retorna: (float) Salario neto.
  */
-float NetSalary(float _rawSalary)
-{
+float NetSalary(float _rawSalary) {
    float deduction = CalcDeduction(_rawSalary);
    return _rawSalary - deduction;
 }
@@ -135,22 +117,17 @@ float NetSalary(float _rawSalary)
  * Argumentos: (int) hours, extraHours[4]
  * Objetivo: Guardar información de cuantas horas extras para cada rango de porcentaje en la tabla.
  */
-void ExtraBreakdown(int hours, int extraHours[4])
-{
+void ExtraBreakdown(int hours, int extraHours[4]) {
    int extra = hours - 44;
    if (extra < 0)
       extra = 0;
 
    int limits[4] = {10, 10, 4, MAX_HOURS};
-   for (int i = 0; i < 4; i++)
-   {
-      if (extra > limits[i])
-      {
+   for (int i = 0; i < 4; i++) {
+      if (extra > limits[i]) {
          extraHours[i] = limits[i];
          extra -= limits[i];
-      }
-      else
-      {
+      } else {
          extraHours[i] = extra;
          extra = 0;
       }
@@ -163,28 +140,22 @@ void ExtraBreakdown(int hours, int extraHours[4])
  * Objetivo: Calcular el salario bruto (incluyendo horas extras)
  * Retorna: (float) salario bruto.
  */
-float RawSalary(float Payment, int HourWork)
-{
+float RawSalary(float Payment, int HourWork) {
    float RawSalary = 0.0f;
 
-   if (HourWork <= 44)
-   {
+   if (HourWork <= 44) {
       RawSalary = Payment * HourWork;
-   }
-   else
-   {
-      // Base salary for first 44 hours
+   } else {
       RawSalary = Payment * 44;
       int extra = HourWork - 44;
 
-      // Apply overtime in stages
       if (extra <= 10)
          RawSalary += extra * (Payment * 1.35f);
       else if (extra <= 20)
          RawSalary += (10 * (Payment * 1.35f)) + ((extra - 10) * (Payment * 1.45f));
       else if (extra <= 24)
          RawSalary += (10 * (Payment * 1.35f)) + (10 * (Payment * 1.45f)) + ((extra - 20) * (Payment * 1.5f));
-      else // more than 24 extra hours
+      else
          RawSalary += (10 * (Payment * 1.35f)) + (10 * (Payment * 1.45f)) + (4 * (Payment * 1.5f)) + ((extra - 24) * (Payment * 2.0f));
    }
 

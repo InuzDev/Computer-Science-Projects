@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #define JUNIOR 1
 #define SENIOR 5
@@ -17,8 +17,7 @@ float AverageDailySalary(float MonthlySalary);
 int CalcVacationDays(int _Age);
 char *DefineMonth(int index);
 
-int main()
-{
+int main() {
    float BaseSalary = 0.0f;
    float MonthlySellingComissions[MONTHS_IN_YEAR] = {0.0f};
    float _MonthlyComission = 0.0f;
@@ -32,14 +31,11 @@ int main()
    int Age = 0;
 
    char PromptUser = 0;
-   do
-   {
-      while (1)
-      {
+   do {
+      while (1) {
          printf("Ingrese la antiguedad del empleado: ");
          scanf("%d", &Age);
-         if (Age > MAX_AGE || Age < MIN_AGE)
-         {
+         if (Age > MAX_AGE || Age < MIN_AGE) {
             printf("Valor ingresado invalido, la antiguedad debe estar entre 0 y 40\n");
             continue;
          }
@@ -47,12 +43,10 @@ int main()
       }
       fflush(stdin);
 
-      while (1)
-      {
+      while (1) {
          printf("Ingrese el sueldo base [8000.00 , 320000.00]: ");
          scanf("%f", &BaseSalary);
-         if (BaseSalary > MAX_SALARY || BaseSalary < MIN_SALARY)
-         {
+         if (BaseSalary > MAX_SALARY || BaseSalary < MIN_SALARY) {
             printf("Valor ingresado invalido, el salario base debe estar entre 8000.00 y 320000.00\n");
             continue;
          }
@@ -61,10 +55,8 @@ int main()
       fflush(stdin);
 
       printf("Ventas realizadas [RD$]\n");
-      for (int index = 0; index < MONTHS_IN_YEAR; index++)
-      {
-         do
-         {
+      for (int index = 0; index < MONTHS_IN_YEAR; index++) {
+         do {
             printf("%-10s:", DefineMonth(index));
             scanf("%f", &MonthlySellingComissions[index]);
             if (MonthlySellingComissions[index] < 0 || MonthlySellingComissions[index] > 75000.00)
@@ -77,8 +69,7 @@ int main()
       printf("|     Mes     | Sueldo Base | Ventas    | Comisi%cn   | Sueldo Total |\n", 162);
       printf("----------------------------------------------------------------------\n");
       _TotalArraySum = 0.0f;
-      for (int index = 0; index < MONTHS_IN_YEAR; index++)
-      {
+      for (int index = 0; index < MONTHS_IN_YEAR; index++) {
          _MonthlyComission = CalcMonthlyComission(Age, MonthlySellingComissions[index]);
          _TotalSalary = BaseSalary + _MonthlyComission;
          printf("| %-11s | %11.2f | %9.2f | %10.2f | %12.2f |\n", DefineMonth(index), BaseSalary, MonthlySellingComissions[index], _MonthlyComission, _TotalSalary);
@@ -104,10 +95,8 @@ int main()
       scanf(" %c", &PromptUser);
 
       PromptUser = toupper(PromptUser);
-      if (PromptUser != 'S' && PromptUser != 'N')
-      {
-         do
-         {
+      if (PromptUser != 'S' && PromptUser != 'N') {
+         do {
             printf("Las respuestas deben ser [S]i / [N]o \n");
             scanf(" %c", &PromptUser);
             PromptUser = toupper(PromptUser);
@@ -123,10 +112,8 @@ int main()
  *  Objetivo: Definir cada valor del indice del primer bucle de la funcion principal del programa.
  * Retorna: El nombre del mes dependiendo el numero que sea el indice del bucle.
  */
-char *DefineMonth(int index)
-{
-   switch (index)
-   {
+char *DefineMonth(int index) {
+   switch (index) {
    case 0:
       return "Enero";
    case 1:
@@ -162,8 +149,7 @@ char *DefineMonth(int index)
  * Objetivo: Calcular el Average del salario mensual
  * Retorna: El average del salario mensual.
  */
-float MonthlyAvgSalary(float _TotalSalary)
-{
+float MonthlyAvgSalary(float _TotalSalary) {
    return _TotalSalary / MONTHS_IN_YEAR;
 }
 
@@ -172,8 +158,7 @@ float MonthlyAvgSalary(float _TotalSalary)
  * Objetivo: Calcular el promedio del salario diario.
  * Retorna: Un flotante representando el average del salario diario.
  */
-float AverageDailySalary(float MonthlySalary)
-{
+float AverageDailySalary(float MonthlySalary) {
    return MonthlySalary / AVG_DAYS_PER_MONTH;
 }
 
@@ -182,8 +167,7 @@ float AverageDailySalary(float MonthlySalary)
  * Objetivo: Calcular el bonus vacacional.
  * Retorna: un flotante representando el bonus vacacional
  */
-float VacationBonus(int age, float MonthlySalary)
-{
+float VacationBonus(int age, float MonthlySalary) {
    float VacationBonus = 0.0f;
    int VacationDays = CalcVacationDays(age);
    VacationBonus = VacationDays * AverageDailySalary(MonthlySalary);
@@ -197,19 +181,13 @@ float VacationBonus(int age, float MonthlySalary)
  * Objetivo: Calcular la comision para el empleado dependiendo el tiempo que tenga en la empresa
  * Retorna: La comision mensual que se utiliza para la tabla
  */
-float CalcMonthlyComission(int Age, float MonthlySell)
-{
+float CalcMonthlyComission(int Age, float MonthlySell) {
    float MonthlyComission = MonthlySell;
-   if (Age <= JUNIOR)
-   {
+   if (Age <= JUNIOR) {
       MonthlyComission *= 0.03;
-   }
-   else if (Age < SENIOR && Age > JUNIOR)
-   {
+   } else if (Age < SENIOR && Age > JUNIOR) {
       MonthlyComission *= 0.08;
-   }
-   else
-   {
+   } else {
       MonthlyComission *= 0.15;
    }
    return MonthlyComission;
@@ -220,8 +198,7 @@ float CalcMonthlyComission(int Age, float MonthlySell)
  * Objetivo: Calcular los dias de vacaciones de cada empleado dependiendo del tiempo que tengan en la empresa
  * Retorna: los dias de vacaciones del empleado.
  */
-int CalcVacationDays(int _Age)
-{
+int CalcVacationDays(int _Age) {
    if (_Age <= 1)
       return 14;
    else if (_Age < 5)
