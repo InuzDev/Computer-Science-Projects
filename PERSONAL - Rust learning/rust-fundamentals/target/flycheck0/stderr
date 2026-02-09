@@ -1,0 +1,5 @@
+error: failed to parse manifest at `C:\Users\carlos\Desktop\Dev\ICC\PERSONAL - Rust learning\rust-fundamentals\Cargo.toml`
+
+Caused by:
+  no targets specified in the manifest
+  either src/lib.rs, src/main.rs, a [lib] section, or [[bin]] section must be present

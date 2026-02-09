@@ -66,7 +66,7 @@ int main() {
    srand(time(NULL));
 
    int Dimension = 0;
-   int DEBUGGINGMATRIX_EXAMPLE[3][3] = {{25, 200, 300}, {50, 100, 200}, {30, 500, 350}};
+   // int DEBUGGINGMATRIX_EXAMPLE[3][3] = {{25, 200, 300}, {50, 100, 200}, {30, 500, 350}};
 
    do {
       printf("Ingrese las dimensiones de la matriz: ");
@@ -82,8 +82,8 @@ int main() {
    printf("Presione [ESC] para salir del programa.");
 
    GenerateMatrix(Dimension, CreateMatrix);
-   Movement_engine(Dimension, DEBUGGINGMATRIX_EXAMPLE, INIT_SCREENX, INIT_SCREENY);
-   // Movement_engine(Dimension, CreateMatrix, INIT_SCREENX, INIT_SCREENY);
+   // Movement_engine(Dimension, DEBUGGINGMATRIX_EXAMPLE, INIT_SCREENX, INIT_SCREENY);
+   Movement_engine(Dimension, CreateMatrix, INIT_SCREENX, INIT_SCREENY);
    colordefault();
    system("cls");
 
