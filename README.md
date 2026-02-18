@@ -30,5 +30,5 @@ SRC = main.c
 TARGET = {name of the project}
 
 all:
-   $(CC) $(CFLAGS) $(SRC) -o $(TARGET) && .\{name of the project}
+   $(CC) $(CFLAGS) $(SRC) -o $(TARGET) && .\$(TARGET)
 ```
