@@ -1,6 +1,6 @@
 # Notas - Charles David ; Estudio sobre lenguaje C
 
-## Estructuras de contorl: Bucles
+## Estructuras de control: Bucles
 
 Veamos el siguiente ejemplo:
 
@@ -244,3 +244,87 @@ Los números aleatorios son de gran utilidad en numerosas aplicaciones y requier
 ### rand(void)
 
 La funcion rand genera un número aleatorio. El número calculado por rand varía en el rango entero de 0 y `RAND-MAX`. La constante `RAND-MAX` se define en el archivo `STDLIB.H` en forma hexadecimal (por ejemplo, 7FFF). En consecuencia, asegúrese incluir dicho archivo en la parte superior de su programa.
+
+## Estructuras y uniones
+
+Se examinaran las estructuras, uniones, enumeraciones y tipos definidos por el usuario. Esto permite al programador crear programas mas complejos y completos, libera al programador de las restricciones al uso de los tipos ofrecidos por el lenguaje. Una estructura contiene multiples variables, que pueden ser de tipos diferentes. Las estructureas es importante para crear programas mas complejos, tales como bases de datos u otras aplicaciones que requieran grandes cantidades de datos. Por otra parte, se analizará el concepto de unión, otro tipo de dato no tan importante como las estructuras array y estructura, pero necesarias en algunos casos.
+
+Un tipo de dato enumerado es una colección de miembros con nombre que tienen valores enteros equivalentes. Un typedef es de hecho no un nuevo tipo de dato sino simplemente un sinónimo de un tipo existente.
+
+---
+
+Imaginemos que necesitamos **almacenar** los datos de una colección de discos compactos (CD) de música. Estos datos pueden ser.
+
+- Titulo
+- Artista
+- Número de canciones
+- Precio
+- Fecha de compra
+
+La estructura CD contiene cinco miembros. Tras decidir los miembros, se debe decirid cuáles son los tipos de datos para utilizar por los miembro. Esta información se representa de la siguiente forma:
+
+Las estructuras es un tipo de dato definido por el usuario, que se debe declarar antes que se pueda utilizar. El formato de declaración es:
+
+```c
+struct <nombre> {
+   <tipo de dato> <nombre de miembro>
+   <tipo de dato> <nombre de miembro>
+   ...
+   <tipo de dato> <nombre de miembro>
+}
+```
+
+Ejemplo de estructura para los artistas.
+
+```c
+struct Artista {
+   char TitleArtist[30];
+   char NameArtist[25];
+   int SongCount;
+   float Price;
+   char Date[8];
+}
+```
+
+### Inicialización de una declaración de estructuras
+
+Se puede inicializar la estructura de dos formas. Se puede inicializar una estructura dentro de la sección del código de su programa, o bien se puede inicializar la estructura como parte de la definición
+
+Hay dos conceptos que hay que definir antes de continuar, declarar y definir no son lo mismo; declarar es simplemente especificar el nombre y el formato de la estructura de datos
+
+## Punteros
+
+Los punteros en C tienen la fama, en el mundo de la programación, de dificultad, tanto en el aprendizaje como en su uso. En esta sección vamos a explicar con la mayor claridad que son los punteros, y como usarlo correctamente. El puntero, no es más que una herramienta muy potente que puede utilizar en sus programas para hacerlos más eficientes y flexibles. Los punteros son, sin género de dudas, una de las razonas fundamentales para que el lenguaje C sea tan potente y tan utilizado.
+
+Una variable de puntero (o puntero, como se le llama normalemnte) es una variable que contiene direcciones de otras variables, no el valor, si no la dirección de memoria de otra variable.
+
+Todas las variables vistas hasta este momento contienen valores de datos, por el contrario las variables de punteros contienne valores que son direcciones de memorias donde se almacenan datos. En resumen, un puntero es una variable que contiene una dirección de memoria, y utilizando punteros su programa puede realizar muchas tareas que no seria posible utilizando tipos de datos estándar.
+
+Objetivos claves de esta sección:
+
+- Punteros
+- Utilización de los punteros
+- Asignación dinámica de la memoria
+- Aritmética de punteros
+- arreglos de punteros
+- punteros a punteros, funciones y estructuras.
+
+### Direcciones en memoria.
+
+Cuando una variable se declara, se asocian tres atributs fundamentales.
+
+- Su nombre
+- Su tipo
+- y su _dirección_ en memoria
+
+```c
+int n;
+```
+
+imaginemos que n, se aloja en la memoria (0x4fffd34) y es un int. Imaginemos que definimos `n = 75`, entonces el compilador lo de como entero `(int)`. El valor de una variable se accede por medio de su nombre. Por ejemplo, se puede imprimir el valor de n con la sentencia:
+
+```c
+printf("%d", n);
+```
+
+A la dirección de una variable se puede acceder por medio del operador de direccion `&`. Por ejemplo, se puede imprimir la dirección de `n` con la sentencia

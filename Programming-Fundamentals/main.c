@@ -8,6 +8,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define MAX_EXERCISES 12
+#define MIN_EXERCISES 1
+
+// Exercises library
+#define SWAP 1
+#define BINARY_SWITCHER 2
+
 // Typedef area
 typedef enum {
    TYPE_INT,
@@ -17,13 +24,6 @@ typedef enum {
    TYPE_LONGLONG,
    TYPE_LONGDOUBLE
 } DataType;
-
-#define MAX_EXERCISES 12
-#define MIN_EXERCISES 1
-
-// Exercises library
-#define SWAP 1
-#define BINARY_SWITCHER 2
 
 // Additional function used as userPrompt in the terminal.
 int userPrompt(void *Value, DataType type);
