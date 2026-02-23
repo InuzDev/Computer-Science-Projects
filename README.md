@@ -25,10 +25,10 @@ Or run the Makefile, I often leave this one in every project from now on to simp
 CC = gcc
 CFLAGS = -std=gnu99 -Wall -Wextra
 
-SRC = main.
+SRC = main.c
 # I often specify the targetted output as the name of the project.
 TARGET = {name of the project}
 
 all:
-   $(CC) $(CFLAGS) $(SRC) -o $(TARGET) && .\{name of the project}
+	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) && .\$(TARGET)
 ```
