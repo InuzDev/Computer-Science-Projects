@@ -16,7 +16,7 @@ int main() {
    while (1) {
       printf("Enter length of array: ");
       scanf("%d", &ArrLength);
-      if (ArrLength > 100) {
+      if (ArrLength > MAX) {
          printf("Max length is 100, please insert a length less than 100\n");
          continue;
       } else {
