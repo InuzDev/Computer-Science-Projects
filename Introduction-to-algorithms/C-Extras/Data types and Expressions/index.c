@@ -7,8 +7,7 @@
 
 #include <stdio.h>
 
-int main()
-{
+int main() {
    int a = 8, b = 3, c = 12, d = 1, e = 5;
    float x = 3.5, y = 2.1, z = 5;
    char m = 'C', n = '2';

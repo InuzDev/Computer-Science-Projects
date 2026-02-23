@@ -132,6 +132,7 @@ void ExtraBreakdown(int hours, int extraHours[4]) {
          extra = 0;
       }
    }
+   return;
 }
 
 /**
