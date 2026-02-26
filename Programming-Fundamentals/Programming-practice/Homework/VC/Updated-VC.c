@@ -42,14 +42,11 @@
 #define DEFAULT_CT LIGHTGRAY
 #define DEFAULT_CF BLACK
 
-#define menu_x 10
-#define menu_y 6
-
 typedef struct {
    int dd, mm, yyyy;
 } FECHA;
 
-void show_menu(char[][OPT_LENGTH], int, int, int, int);
+void show_header(char[][OPT_LENGTH], int, int, int, int);
 int menu_movement(char[][OPT_LENGTH], int, int, int, int);
 void set_color(int, int);
 void color_default();
@@ -61,6 +58,7 @@ void CaptureInteger(char *, int *, int, int, int);
 void CaptureFloat(char *, int *, int, int, int);
 void capture_numeric(char *, int, int, int, int, int);
 void capture_password(char *, int, int, int);
+int vcapture(int, int, const char *, ...);
 
 int validate_date(int, int, int);
 int validate_password(char *);
@@ -71,10 +69,173 @@ int has_lower(char *);
 int has_number(char *);
 int valid_length(char *);
 
+/*
+Funcion: vcapture
+Argumentos:
+   int pos_x        : posicion horizontal (columna) donde se mostrara el campo
+   int pos_y        : posicion vertical   (fila)    donde se mostrara el campo
+   const char *fmt  : cadena de formato que indica el tipo de captura:
+
+      %[ancho]s      - Alfanumerico. Ancho opcional indica el maximo de caracteres.
+                       Ejemplo: %30s captura hasta 30 caracteres en un char*.
+
+      %D             - Fecha en formato dd/mm/yyyy con validacion automatica.
+                       Requiere un puntero FECHA* como argumento.
+                       Ejemplo: %D  ->  vcapture(x, y, "%D", &mi_fecha)
+
+      %[ancho]i      - Entero. Ancho opcional indica el maximo de digitos.
+                       Requiere un int* como argumento.
+                       Ejemplo: %5i captura hasta 5 digitos en un int*.
+
+      %[antes].[despues]lf
+                     - Double con precision controlada.
+                       'antes'   = maximo de digitos antes del punto decimal.
+                       'despues' = digitos despues del punto decimal.
+                       Requiere un double* como argumento.
+                       Ejemplo: %8.2lf captura un numero de hasta 8.2 digitos.
+                       Nota: para precision dinamica, construya el formato con sprintf:
+                             sprintf(fmt, "%%%d.%dlf", antes, despues);
+
+      %p             - Password con validacion de requisitos de seguridad
+                       (mayusculas, minusculas, numeros, caracteres especiales,
+                       longitud entre PASSWORD_MIN y PASSWORD_MAX).
+                       Requiere un char* como argumento.
+                       Ejemplo: %p  ->  vcapture(x, y, "%p", clave)
+
+   ...  : punteros a las variables donde se guardaran los resultados,
+          en el mismo orden que los especificadores en fmt.
+
+Objetivo:
+   Funcion unificada de captura de datos con formato estilo scanf.
+   Permite capturar distintos tipos de dato con una sola llamada,
+   delegando internamente a la funcion de captura correspondiente.
+   Mantiene la misma interfaz visual interactiva (flechas, BKSP, ENTER, ESC)
+   que las funciones individuales.
+
+Retorno:
+   int - numero de campos capturados exitosamente.
+
+Ejemplo de uso:
+   char nombre[31]  = {0};
+   FECHA nacimiento = {0};
+   int   edad       = 0;
+   double precio    = 0.0;
+   char  clave[21]  = {0};
+   char  num_fmt[20];
+
+   vcapture(10,  5, "%30s",    nombre);
+   vcapture(10,  7, "%D",      &nacimiento);
+   vcapture(10,  9, "%5i",     &edad);
+   vcapture(10, 11, "%8.2lf",  &precio);
+   vcapture(10, 13, "%p",      clave);
+
+   // Precision dinamica para doubles:
+   int antes = 4, despues = 2;
+   sprintf(num_fmt, "%%%d.%dlf", antes, despues);
+   vcapture(10, 15, num_fmt, &precio);
+*/
+int vcapture(int pos_x, int pos_y, const char *fmt, ...) {
+   va_list args;
+   va_start(args, fmt);
+
+   int i = 0;
+   int captured = 0;
+
+   while (fmt[i]) {
+      if (fmt[i] != '%') {
+         i++;
+         continue;
+      }
+      i++; /* skip '%' */
+
+      /* --- parse optional width --- */
+      int width = 0;
+      while (fmt[i] >= '0' && fmt[i] <= '9') {
+         width = width * 10 + (fmt[i] - '0');
+         i++;
+      }
+
+      /* --- parse optional precision (.N) --- */
+      int precision = 0;
+      if (fmt[i] == '.') {
+         i++; /* skip '.' */
+         while (fmt[i] >= '0' && fmt[i] <= '9') {
+            precision = precision * 10 + (fmt[i] - '0');
+            i++;
+         }
+      }
+
+      char spec = fmt[i++];
+
+      switch (spec) {
+
+      /* %[ancho]s  ->  cadena alfanumerica */
+      case 's': {
+         char *result = va_arg(args, char *);
+         int max = (width > 0) ? width : 80;
+         capture_alphanumeric(result, max, pos_x, pos_y);
+         captured++;
+         break;
+      }
+
+      /* %D  ->  fecha dd/mm/yyyy (FECHA*) */
+      case 'D': {
+         FECHA *result = va_arg(args, FECHA *);
+         char buf[11] = {0};
+         *result = captureDate(buf, 10, pos_x, pos_y);
+         captured++;
+         break;
+      }
+
+      /* %[ancho]i  ->  entero (int*) */
+      case 'i': {
+         int *result = va_arg(args, int *);
+         char buf[20] = {0};
+         int max_digits = (width > 0) ? width : 10;
+         CaptureInteger(buf, result, max_digits, pos_x, pos_y);
+         captured++;
+         break;
+      }
+
+      /* %[antes].[despues]lf  ->  double (double*) */
+      case 'l': {
+         if (fmt[i] == 'f') {
+            i++; /* skip 'f' */
+            double *result = va_arg(args, double *);
+            char buf[50] = {0};
+            int before = (width > 0) ? width : 10;
+            int after = (precision > 0) ? precision : 2;
+            int total = before + after + 1; /* +1 por el punto */
+            capture_numeric(buf, before, after, total, pos_x, pos_y);
+            *result = atof(buf);
+            captured++;
+         }
+         break;
+      }
+
+      /* %p  ->  password (char*) */
+      case 'p': {
+         char *result = va_arg(args, char *);
+         capture_password(result, PASSWORD_MAX, pos_x, pos_y);
+         captured++;
+         break;
+      }
+
+      default:
+         break;
+      }
+   }
+
+   va_end(args);
+   return captured;
+}
+
 int main() {
    system("cls");
    char menu[][OPT_LENGTH] = {"Alfanumerico", "Fecha", "Numerico con Precision", "Password", "Salir"};
 
+   int menu_x = 10;
+   int menu_y = 6;
    int selected_option = 0;
 
    int digits_before_decimal = 0;
@@ -91,45 +252,49 @@ int main() {
       if (selected_option == ALPHANUM_CAPTURE) {
          system("cls");
          gotoxy(10, 5);
-         printf("Captura alfan%cmerica", 163);
+         printf("=== CAPTURA ALFANUMERICA ===");
          gotoxy(10, 7);
          printf("Campo (max 30 chars):");
-         capture_alphanumeric(field_buffer, 30, menu_x + 25, menu_y + 1);
+         vcapture(menu_x + 25, menu_y + 1, "%30s", field_buffer);
 
       } else if (selected_option == DATE_CAPTURE) {
          system("cls");
          gotoxy(10, 5);
-         printf("=== Captura defecha");
+         printf("=== CAPTURA DE FECHA ===");
          gotoxy(10, 7);
          printf("Fecha (dd/mm/yyyy):");
-         fecha_result = captureDate(field_buffer, 10, menu_x + 25, menu_y + 2);
+         vcapture(menu_x + 25, menu_y + 2, "%D", &fecha_result);
 
       } else if (selected_option == NUM_CAPTURE) {
          system("cls");
          gotoxy(10, 5);
-         printf("Captura n%cmerica", 163);
+         printf("=== CAPTURA NUMERICA ===");
 
-         char digits_buffer[80] = {0};
          gotoxy(10, 7);
          printf("Digitos antes del punto:");
-         CaptureInteger(digits_buffer, &digits_before_decimal, 2, menu_x + 25, menu_y);
+         vcapture(menu_x + 25, menu_y + 3, "%2i", &digits_before_decimal);
 
-         char decimals_buffer[80] = {0};
          gotoxy(10, 9);
          printf("Digitos despues del punto:");
-         CaptureFloat(decimals_buffer, &digits_after_decimal, 2, menu_x + 25, menu_y);
+         vcapture(menu_x + 25, menu_y + 5, "%2i", &digits_after_decimal);
 
          gotoxy(10, 11);
          printf("Numero (formato %d.%d):", digits_before_decimal, digits_after_decimal);
-         capture_numeric(field_buffer, digits_before_decimal, digits_after_decimal,
-                         digits_before_decimal + digits_after_decimal + 1, menu_x + 45, menu_y + 3);
+
+         char num_fmt[20];
+         double num_result = 0.0;
+         sprintf(num_fmt, "%%%d.%dlf", digits_before_decimal, digits_after_decimal);
+         vcapture(menu_x + 45, menu_y + 3, num_fmt, &num_result);
+         sprintf(field_buffer, "%.*f", digits_after_decimal, num_result);
+
       } else if (selected_option == PASS_CAPTURE) {
          system("cls");
          gotoxy(10, 5);
-         printf("Captura de contrase%ca", 164);
+         printf("=== CAPTURA DE PASSWORD ===");
          gotoxy(10, 7);
          printf("Password (8-20 chars):");
-         capture_password(field_buffer, 20, menu_x + 25, menu_y + 4);
+         vcapture(menu_x + 25, menu_y + 4, "%p", field_buffer);
+
       } else if (selected_option == EXIT) {
          system("cls");
          return 0;
@@ -167,7 +332,7 @@ Objetivo:
    Mostrar el menu en pantalla, resaltando visualmente la opcion seleccionada
    con colores diferentes al resto de las opciones
 */
-void show_menu(char menu[][OPT_LENGTH], int total_options, int pos_y, int pos_x, int selected_index) {
+void show_header(char menu[][OPT_LENGTH], int total_options, int pos_y, int pos_x, int selected_index) {
 
    gotoxy(pos_x, pos_y);
    set_color(CET, CEF);
@@ -209,7 +374,7 @@ int menu_movement(char menu[][OPT_LENGTH], int total_options, int pos_y, int pos
    _setcursortype(0);
 
    do {
-      show_menu(menu, total_options, pos_x, pos_y, selected_index);
+      show_header(menu, total_options, pos_x, pos_y, selected_index);
 
       do {
          key = getch();
@@ -346,7 +511,7 @@ Objetivo:
 Retorno:
    FECHA - estructura con los campos dd, mm, yyyy de la fecha validada
 */
-FECHA captureDate(char *date_str, int field_length, int pos_x, int pos_y) {
+FECHA captureDate(char *date_str, int field_length, int Xpos, int Ypos) {
    int cursor_index = 0;
    char pressed_key;
    FECHA result_date;
@@ -356,7 +521,7 @@ FECHA captureDate(char *date_str, int field_length, int pos_x, int pos_y) {
    do {
       *(date_str + 2) = '/';
       *(date_str + 5) = '/';
-      show_field(date_str, cursor_index, field_length, pos_x, pos_y);
+      show_field(date_str, cursor_index, field_length, Xpos, Ypos);
 
       fflush(stdin);
       do {
@@ -407,13 +572,13 @@ FECHA captureDate(char *date_str, int field_length, int pos_x, int pos_y) {
          result_date.yyyy = atoi(year_str);
 
          if (validate_date(result_date.dd, result_date.mm, result_date.yyyy)) {
-            gotoxy(pos_x, pos_y + 2);
+            gotoxy(Xpos, Ypos + 2);
             set_color(GREEN, BLACK);
             printf("Fecha valida!%20c", ' ');
             color_default();
             break;
          } else {
-            gotoxy(pos_x, pos_y + 2);
+            gotoxy(Xpos, Ypos + 2);
             set_color(RED, BLACK);
             printf("Fecha invalida! Intente de nuevo.%20c", ' ');
             color_default();
@@ -574,12 +739,12 @@ void capture_numeric(char *number_str, int max_digits_before, int max_digits_aft
                   cursor_index++;
                   count_before_decimal++;
                } else if (count_before_decimal == max_digits_before - 1 && decimal_inserted == 0) {
-                  *(number_str + cursor_index) = pressed_key;
-                  cursor_index++;
-                  count_before_decimal++;
                   *(number_str + cursor_index) = '.';
                   decimal_inserted++;
                   cursor_index++;
+                  *(number_str + cursor_index) = pressed_key;
+                  cursor_index++;
+                  count_after_decimal++;
                } else if ((count_before_decimal > max_digits_before - 1 || decimal_inserted != 0) && count_after_decimal < max_digits_after) {
                   *(number_str + cursor_index) = pressed_key;
                   count_after_decimal++;
