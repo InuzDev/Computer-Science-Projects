@@ -255,13 +255,13 @@ int show_filter_menu(void) {
       setcolor(TEXT_COLOR, BG_COLOR);
       printf("Mostrar productos: ");
 
-      for (int i = 0; i < 3; i++) {
-         gotoxy(1 + i * 18, 2);
-         if (selected == i)
+      for (int ind = 0; ind < 3; ind++) {
+         gotoxy(1 + ind * 18, 2);
+         if (selected == ind)
             setcolor(SELECTED_TEXTCOLOR, SELECTED_BGCOLOR);
          else
             setcolor(TEXT_COLOR, BG_COLOR);
-         printf("%-16s", options[i]);
+         printf("%-16s", options[ind]);
       }
       colordefault();
 
