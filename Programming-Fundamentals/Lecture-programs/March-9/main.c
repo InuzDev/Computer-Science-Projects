@@ -50,7 +50,7 @@ int main() {
       }
    }
 
-   if (WriteAuthorsData("AutoresDeLibros.dat", AuthorData, AuthorCount)) {
+   if (WriteAuthorsData("AutoresDeLibros.txt", AuthorData, AuthorCount)) {
       printf("Se ha creado el archivo AutoresDeLibros\n");
    }
 
