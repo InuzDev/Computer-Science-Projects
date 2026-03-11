@@ -1,4 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+// Macros used in the fourth example
+#define MAXNOMASIG 41
+#define MAXCOD 11
+
+// Struct used in the fourth example
+typedef struct {
+   char codigo[MAXCOD], nombre[MAXNOMASIG];
+   int ht, hp, cr; // Horas teoricas, horas practicas y total de creditos.
+} ASG;
 
 // Struct used in the third example.
 typedef struct {
@@ -7,6 +19,9 @@ typedef struct {
    int creditos;
 } EST;
 
+// Fourth example
+int estaEnLista(ASG asig, ASG *asigselim, int num);
+int obtenerasig(FILE *pf, ASG *asigselim, ASG **asigsfiltro, int num);
 // Third example
 int EliminarEstudiantes(EST *data, int num, char *matborrar);
 // Second example
@@ -24,6 +39,31 @@ int EliminarEstudiantes(EST *data, int num, char *matborrar) {
       }
    }
    return Escritura;
+}
+
+int estaEnLista(ASG asig, ASG *asigselim, int num) {
+   for (int index = 0; index < num; index++) {
+      if (strcmp(asig.codigo, asigselim[index].codigo) == 0) {
+         return 1; // It is in the list.
+      }
+   }
+   return 0; // It isn't in the list.
+}
+int obtenerasig(FILE *pf, ASG *asigselim, ASG **asigsfiltro, int num) {
+   int cantidad = 0;
+   *asigsfiltro = NULL; // Initialize an empty pointer.
+   ASG TempStorage;     // Buffer to read the file.
+
+   while (fread(&TempStorage, sizeof(ASG), 1, pf) == 1) {
+      if (!estaEnLista(TempStorage, asigselim, num)) {
+         // If it isn't in the list, we will include, so we ask for more memory
+         *asigsfiltro = realloc(*asigsfiltro, (cantidad + 1) * sizeof(ASG));
+         (*asigsfiltro)[cantidad] = TempStorage;
+         cantidad++;
+      }
+   }
+
+   return cantidad;
 }
 
 // Normal factorial without recursion
