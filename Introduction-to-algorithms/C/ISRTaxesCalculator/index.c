@@ -23,15 +23,12 @@ float CalcTaxes(float, int, float[]);
 float CalcNetSalary(float, float);
 void ShowTable(float, float, float, int);
 
-int main()
-{
+int main() {
    float MonthlyPayments[MONTHS] = {0.00f}, YearlyProjection[MONTHS] = {0.00f}, deduction[MONTHS] = {0.00f}, NetSalary[MONTHS] = {0.00f};
    int SizeOfMP = sizeof(MonthlyPayments) / sizeof(MonthlyPayments[0]);
 
-   for (int index = 0; index < SizeOfMP; index++)
-   {
-      switch (index + 1)
-      {
+   for (int index = 0; index < SizeOfMP; index++) {
+      switch (index + 1) {
       case 1:
          printf("Enero     : ");
          break;
@@ -75,11 +72,9 @@ int main()
       scanf("%f", &MonthlyPayments[index]);
    }
 
-   for (int index = 0; index < SizeOfMP; index++)
-   {
+   for (int index = 0; index < SizeOfMP; index++) {
       float sumPrev = 0.0f;
-      for (int _index = 0; _index < index; _index++)
-      {
+      for (int _index = 0; _index < index; _index++) {
          sumPrev += MonthlyPayments[_index];
       }
 
@@ -91,8 +86,7 @@ int main()
    }
 
    printf("    Mes         Sueldo Bruto     IRS   Sueldo Neto\n");
-   for (int index = 0; index < SizeOfMP; index++)
-   {
+   for (int index = 0; index < SizeOfMP; index++) {
       ShowTable(MonthlyPayments[index], deduction[index], NetSalary[index], index);
    }
 
@@ -105,11 +99,9 @@ int main()
  *               (int) Index
  * Objetivo: Imprimir la tabla, utilizando los datos proporcionados por la función main.
  */
-void ShowTable(float RawSalary, float Deduction, float NetSalary, int Index)
-{
+void ShowTable(float RawSalary, float Deduction, float NetSalary, int Index) {
    int Month = Index + 1;
-   switch (Month)
-   {
+   switch (Month) {
    case 1:
       printf("Enero     : %12.2f %12.2f %12.2f\n", RawSalary, Deduction, NetSalary);
       break;
@@ -151,30 +143,27 @@ void ShowTable(float RawSalary, float Deduction, float NetSalary, int Index)
       break;
    }
 }
+
 /**
  * Función: ComputeYearlyTax
  * Argumento(s): (float) yearlyProjection
  * Objetivo: Calcular el impuesto anual total aplicando los tramos
  * Retorna: impuesto anual sobre la renta (total anual)
  */
-float ComputeYearlyTax(float yearlyProjection)
-{
+float ComputeYearlyTax(float yearlyProjection) {
    float tax = 0.0f;
 
-   if (yearlyProjection > TAX_THRESHOLD_1)
-   {
+   if (yearlyProjection > TAX_THRESHOLD_1) {
       float upper = (yearlyProjection < TAX_THRESHOLD_2) ? yearlyProjection : TAX_THRESHOLD_2;
       tax += (upper - TAX_THRESHOLD_1) * TAX_PERCENTAGE_1;
    }
 
-   if (yearlyProjection > TAX_THRESHOLD_2)
-   {
+   if (yearlyProjection > TAX_THRESHOLD_2) {
       float upper = (yearlyProjection < TAX_THRESHOLD_3) ? yearlyProjection : TAX_THRESHOLD_3;
       tax += (upper - TAX_THRESHOLD_2) * TAX_PERCENTAGE_2;
    }
 
-   if (yearlyProjection > TAX_THRESHOLD_3)
-   {
+   if (yearlyProjection > TAX_THRESHOLD_3) {
       tax += (yearlyProjection - TAX_THRESHOLD_3) * TAX_PERCENTAGE_3;
    }
 
@@ -192,13 +181,11 @@ float ComputeYearlyTax(float yearlyProjection)
  *   3) distribuir el restante entre los meses que faltan (incluyendo el actual).
  * Retorna: deducción mensual para el mes actual
  */
-float CalcTaxes(float YearlyProjection, int monthIndex, float previousDeductions[])
-{
+float CalcTaxes(float YearlyProjection, int monthIndex, float previousDeductions[]) {
    float yearlyTax = ComputeYearlyTax(YearlyProjection);
 
    float sumPrevWithheld = 0.0f;
-   for (int index = 0; index < monthIndex; index++)
-   {
+   for (int index = 0; index < monthIndex; index++) {
       sumPrevWithheld += previousDeductions[index];
    }
 
@@ -217,8 +204,7 @@ float CalcTaxes(float YearlyProjection, int monthIndex, float previousDeductions
  * Objetivo: Calcular el salario neto
  * Retorna: Salario neto (NetSalary)
  */
-float CalcNetSalary(float RawSalary, float Deduction)
-{
+float CalcNetSalary(float RawSalary, float Deduction) {
    float NetSalary = 0.0f;
    NetSalary = RawSalary - Deduction;
    return NetSalary;

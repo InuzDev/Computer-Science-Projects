@@ -4,6 +4,9 @@
 # compiled files
 *.exe
 
+# Output by files
+*.dat
+
 # Clang file configuration
 .clangd
 .clang-format
