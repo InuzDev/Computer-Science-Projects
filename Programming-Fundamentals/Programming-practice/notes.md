@@ -311,7 +311,7 @@ Objetivos claves de esta sección:
 
 ### Direcciones en memoria.
 
-Cuando una variable se declara, se asocian tres atributs fundamentales.
+Cuando una variable se declara, se asocian tres atributos fundamentales.
 
 - Su nombre
 - Su tipo

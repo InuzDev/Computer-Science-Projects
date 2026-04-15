@@ -1,6 +1,18 @@
+If:
+   PathMatch: .*/.c
 CompileFlags:
    Add:
       - -std=c99
+      - -target
+      - x86_64-w64-windows-gnu
+      - -IC:/Users/carlos/scoop/apps/gcc/current/include
+      - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
+---
+If:
+   PatchMatch: .*/.(cpp|cc|cxx)
+CompileFlags:
+   Add:
+      - -std=c++17
       - -target
       - x86_64-w64-windows-gnu
       - -IC:/Users/carlos/scoop/apps/gcc/current/include

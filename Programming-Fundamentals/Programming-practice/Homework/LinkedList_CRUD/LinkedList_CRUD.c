@@ -304,7 +304,7 @@ void show_field(char *field_str, int cursor_position, int max_length, int pos_x,
  * Retorna  : 1 si es válido, 0 si no lo es.
  */
 int validateAlphachar(char character) {
-   return (isalpha((unsigned char)character) || character == ' ' || character == '-');
+   return (isalpha((char)character) || character == ' ' || character == '-');
 }
 
 /*
