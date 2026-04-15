@@ -2,7 +2,7 @@ If:
    PathMatch: .*/.c
 CompileFlags:
    Add:
-      - -std=c99
+      - -std=gnu99
       - -target
       - x86_64-w64-windows-gnu
       - -IC:/Users/carlos/scoop/apps/gcc/current/include
