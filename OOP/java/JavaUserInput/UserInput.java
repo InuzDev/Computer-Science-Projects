@@ -1,12 +1,14 @@
 import java.util.Scanner;
 
-class Main {
+public class UserInput {
 
    public static void main(String[] args) {
-      Scanner myObj = new Scanner(System.in);
-      System.out.println("Enter username");
+      // User input in most case scenarios
+      try (Scanner myObj = new Scanner(System.in)) {
+         System.out.print("Enter username: ");
+         String userName = myObj.nextLine();
 
-      String userName = myObj.nextLine();
-      System.out.println("Username is: " + userName);
+         System.out.println("My username is: " + userName);
+      }
    }
 }
