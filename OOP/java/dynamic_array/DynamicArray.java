@@ -1,9 +1,10 @@
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DynamicArray {
 
    public static void main(String[] args) {
-      Scanner GetUserInput = new Scanner(System.in);
       // Create a list of strings using ArrayList. This is a dynamic array
       List<String> list = new ArrayList<>();
 
@@ -20,9 +21,13 @@ public class DynamicArray {
 
       // I'm going to try by myself creating a dynamic array that involve the user input.
       System.out.println("Enter another programming language");
+      String ExtraLanguage;
 
-      String programmingLanguage = GetUserInput.nextLine();
-      list.add(programmingLanguage);
+      try (Scanner GetUserInput = new Scanner(System.in)) {
+         ExtraLanguage = GetUserInput.nextLine();
+      }
+
+      list.add(ExtraLanguage);
 
       System.out.println("Programming languages:");
       int index = 0;

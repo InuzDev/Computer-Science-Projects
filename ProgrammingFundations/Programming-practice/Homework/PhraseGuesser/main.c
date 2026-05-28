@@ -6,7 +6,8 @@
  *
  * main.c
  */
-#include <conio.c>
+#include <Windows.h>
+#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,6 +66,7 @@ int RevealLetter(char *hidden_phrase, char *original_phrase, char letter);
 int CheckWin(char *hidden_phrase);
 int RemoveLetterFromAvailable(char available_letters[], int *available_count, char letter);
 int CalculateRemainingLettersValue(char *hidden_phrase, char *original_phrase);
+
 char GetMiddleLetter(char displayed_letters[], int display_count);
 void DisplayUI(char *hidden_phrase, int money, int mistakes, int max_mistakes, char correct_letters[], int correct_count, char wrong_letters[], int wrong_count, char displayed_letters[], int display_count, int available_count, int money_roulette[], int money_roulette_size, int can_buy);
 void TrackLetter(char letter, char correct_letters[], int *correct_count, char wrong_letters[], int *wrong_count, int isCorrect);
