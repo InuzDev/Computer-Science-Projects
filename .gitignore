@@ -1,6 +1,8 @@
 # IDE files
 .vscode
 
+# Word documents
+*.docx
 
 # Assembly compiled
 *.o
