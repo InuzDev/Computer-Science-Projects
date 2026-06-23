@@ -1,6 +1,13 @@
 # IDE files
 .vscode
 
+
+# Assembly compiled
+*.o
+NumPrimo
+SumaNum
+Factorial
+
 # compiled files
 *.exe
 
