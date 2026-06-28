@@ -1,3 +1,9 @@
+# temp files
+*.tmp
+
+# Example containing sensitive data
+RunExample_ASM_program.png
+
 # IDE files
 .vscode
 
@@ -9,6 +15,9 @@
 NumPrimo
 SumaNum
 Factorial
+
+# Rar files
+*.rar
 
 # compiled files
 *.exe
