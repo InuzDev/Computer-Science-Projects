@@ -6,7 +6,6 @@
 
 #include <conio.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #define MAX_EXERCISES 12
 #define MIN_EXERCISES 1

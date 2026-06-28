@@ -1,15 +1,15 @@
 If:
-   PathMatch: .*/.c
+   PathMatch: .*\.c
 CompileFlags:
    Add:
-      - -std=gnu99
+      - -std=gnu17
       - -target
       - x86_64-w64-windows-gnu
       - -IC:/Users/carlos/scoop/apps/gcc/current/include
       - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
 ---
 If:
-   PatchMatch: .*/.(cpp|cc|cxx)
+   PathMatch: .*\.(cpp|cc|cxx)
 CompileFlags:
    Add:
       - -std=c++17
@@ -17,3 +17,16 @@ CompileFlags:
       - x86_64-w64-windows-gnu
       - -IC:/Users/carlos/scoop/apps/gcc/current/include
       - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
+---
+If:
+   PathMatch: .*/Fundamental-of-computational-systems/.*\.c
+CompileFlags:
+   Remove:
+      - x86_64-w64-windows-gnu
+      - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
+   Add:
+      - -std=gnu17
+      - -target
+      - x86_64-pc-linux-gnu
+      - -isystem/usr/include
+      - -isystem/usr/include/x86_64-linux-gnu

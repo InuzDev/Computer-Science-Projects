@@ -1,5 +1,23 @@
+# temp files
+*.tmp
+
+# Example containing sensitive data
+RunExample_ASM_program.png
+
 # IDE files
 .vscode
+
+# Word documents
+*.docx
+
+# Assembly compiled
+*.o
+NumPrimo
+SumaNum
+Factorial
+
+# Rar files
+*.rar
 
 # compiled files
 *.exe

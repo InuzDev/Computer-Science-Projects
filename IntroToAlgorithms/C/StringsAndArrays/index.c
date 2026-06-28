@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
-int main()
-{
+int main() {
+
    char String[128];
    int n = 10;
    printf("Ingrese su nombre: ");
