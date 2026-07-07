@@ -1,6 +1,26 @@
 # temp files
 *.tmp
 
+# Synthesis / place-and-route intermediate files
+*.json
+*.fasm
+*.frames
+
+# Final bitstream (large binary, regeneratable from source)
+*.bit
+
+# Chip database (large, one-time generated, board-specific not project-specific)
+*.bin
+xc7s50.bin
+
+# Yosys/nextpnr logs
+*.log
+
+# OS/editor cruft
+.DS_Store
+*.swp
+
+
 # Example containing sensitive data
 RunExample_ASM_program.png
 
