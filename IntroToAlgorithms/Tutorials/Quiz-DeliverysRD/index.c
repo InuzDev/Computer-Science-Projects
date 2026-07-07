@@ -64,6 +64,11 @@ int main(void) {
          scanf("%d", &ClimateStatus);
       }
 
+      while (ClimateStatus) {
+         if (ClimateStatus != 1 || ClimateStatus != 2) {
+         }
+      }
+
       Payments[EvaluatedClient] = tarifaAPagarCliente(ClientDistance, ClimateStatus, ClientConnected);
 
       if (Payments[EvaluatedClient] == DECLINED_TASK) {
