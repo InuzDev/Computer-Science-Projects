@@ -1,4 +1,4 @@
-section .data
+   section .data
    _io_newline db 0x0a
 
 section .bss
