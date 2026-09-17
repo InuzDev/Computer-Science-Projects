@@ -30,6 +30,9 @@ RunExample_ASM_program.png
 # Word documents
 *.docx
 
+# Files used to giveout homework in DB
+*.txt
+
 # Assembly compiled
 *.o
 NumPrimo
