@@ -47,3 +47,10 @@ JOIN (
 	HAVING COUNT(DISTINCT ord_det.OrderID) >= 4
 ) sub ON prod.ProductID = sub.ProductID
 GROUP BY prod.ProductID, prod.ProductName;
+
+-- Obtener la cantidad de ordenes realizadas por dia para el mes de mayo del 1997
+SELECT DAY(OrderDate) AS Dia, COUNT(*) AS CantidadOrdenes
+FROM Orders
+WHERE YEAR(OrderDate) = 1997 AND MONTH(OrderDate) = 5
+GROUP BY DAY(OrderDate)
+ORDER BY Dia;
