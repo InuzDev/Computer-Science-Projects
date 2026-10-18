@@ -1,5 +1,6 @@
+# ---------- Windows (paths like C:/...) ----------
 If:
-   PathMatch: .*\.c
+   PathMatch: '[A-Za-z]:/.*\.c'
 CompileFlags:
    Add:
       - -std=gnu17
@@ -9,7 +10,7 @@ CompileFlags:
       - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
 ---
 If:
-   PathMatch: .*\.(cpp|cc|cxx)
+   PathMatch: '[A-Za-z]:/.*\.(cpp|cc|cxx)'
 CompileFlags:
    Add:
       - -std=c++17
@@ -19,7 +20,7 @@ CompileFlags:
       - -IC:/Users/carlos/scoop/apps/gcc/current/x86_64-w64-mingw32/include
 ---
 If:
-   PathMatch: .*/Fundamental-of-computational-systems/.*\.c
+   PathMatch: '[A-Za-z]:/.*/Fundamental-of-computational-systems/.*\.c'
 CompileFlags:
    Remove:
       - x86_64-w64-windows-gnu
@@ -30,3 +31,19 @@ CompileFlags:
       - x86_64-pc-linux-gnu
       - -isystem/usr/include
       - -isystem/usr/include/x86_64-linux-gnu
+---
+# ---------- macOS (paths like /Users/...) ----------
+If:
+   PathMatch: '/.*\.c'
+CompileFlags:
+   Add:
+      - -std=gnu17
+      # Optional fallback, only if clangd cannot find stdio.h or stdlib.h:
+      # - -isysroot
+      # - /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+---
+If:
+   PathMatch: '/.*\.(cpp|cc|cxx)'
+CompileFlags:
+   Add:
+      - -std=c++17
